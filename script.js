@@ -1,9 +1,13 @@
 // 页面切换功能
-function showPage(id) {
+function showPage(id, button) {
+  // 隐藏所有页面
   document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+  // 移除所有按钮的激活状态
   document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+
+  // 显示目标页面，激活当前按钮
   document.getElementById(id).classList.add("active");
-  event.target.classList.add("active");
+  button.classList.add("active");
 }
 
 // ========== 每日计划功能 ==========
