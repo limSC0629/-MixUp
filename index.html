@@ -24,15 +24,29 @@
   </section>
 
   <section id="tasks">
-    <h2>📆 每日计划</h2>
-    <div class="task-input-group">
-      <input type="text" id="taskInput" placeholder="输入任务..." />
-      <button onclick="addTask()">添加</button>
-      <button onclick="clearTasks()">清空</button>
+  <h2>📝 每日事务</h2>
+  <div class="task-container">
+    <div class="task-column">
+      <h3>📆 每日计划</h3>
+      <div class="task-input-group">
+        <input type="text" id="taskInput" placeholder="输入任务..." />
+        <button onclick="addTask()">添加</button>
+        <button onclick="clearTasks()">清空</button>
+      </div>
+      <div id="taskList"></div>
     </div>
-    <div id="taskList"></div>
-  </section>
 
+    <div class="task-column">
+      <h3>⏰ 提醒事项</h3>
+      <div class="task-input-group">
+        <input type="text" id="reminderInput" placeholder="输入提醒..." />
+        <button onclick="addReminder()">添加</button>
+        <button onclick="clearReminders()">清空</button>
+      </div>
+      <div id="reminderList"></div>
+    </div>
+  </div>
+</section>
   <script src="script.js"></script>
 </body>
 </html>
