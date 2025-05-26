@@ -1,4 +1,4 @@
-// 时间显示
+// 显示当前时间
 function updateTime() {
   const now = new Date();
   const timeStr = now.toLocaleString('zh-CN', { hour12: false });
@@ -7,120 +7,151 @@ function updateTime() {
 setInterval(updateTime, 1000);
 updateTime();
 
-// ------------- 待办事项 ----------------
+// 学习笔记自动保存
+const notes = document.getElementById('notes');
+notes.value = localStorage.getItem('studyNotes') || '';
+notes.addEventListener('input', () => {
+  localStorage.setItem('studyNotes', notes.value);
+});
+
+// 每日计划任务逻辑
+const datepicker = document.getElementById('datepicker');
 const taskInput = document.getElementById('taskInput');
 const addTaskBtn = document.getElementById('addTaskBtn');
-const clearTasksBtn = document.getElementById('clearTasksBtn');
-const taskList = document.getElementById('taskList');
+const clearAllBtn = document.getElementById('clearAllBtn');
+const taskListContainer = document.getElementById('taskListContainer');
 
-let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+let tasks = JSON.parse(localStorage.getItem('studyTasks')) || [];
 
-function renderTasks() {
-  taskList.innerHTML = '';
-  tasks.forEach((task, index) => {
-    const li = document.createElement('li');
-    li.className = task.completed ? 'completed' : '';
-
-    // 创建复选框
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.checked = task.completed;
-    checkbox.style.marginRight = '10px';
-
-    checkbox.addEventListener('change', () => {
-      tasks[index].completed = checkbox.checked;
-      saveTasks();
-      renderTasks();
-    });
-
-    li.appendChild(checkbox);
-
-    // 任务文本
-    const span = document.createElement('span');
-    span.textContent = task.text;
-    li.appendChild(span);
-
-    // 删除按钮
-    const delBtn = document.createElement('button');
-    delBtn.textContent = '删除';
-    delBtn.title = '删除任务';
-    delBtn.addEventListener('click', e => {
-      e.stopPropagation();
-      tasks.splice(index, 1);
-      saveTasks();
-      renderTasks();
-    });
-
-    li.appendChild(delBtn);
-    taskList.appendChild(li);
-  });
+// 保存任务
+function saveTasks() {
+  localStorage.setItem('studyTasks', JSON.stringify(tasks));
 }
 
+// 渲染任务，按日期分组
+function renderTasks() {
+  taskListContainer.innerHTML = '';
 
-// ----------- 日历提醒 ------------------
+  if (tasks.length === 0) {
+    taskListContainer.textContent = '暂无任务';
+    return;
+  }
 
-// 记得你需要引入Pikaday的js和css，或者用浏览器自带的<input type="date">
+  // 按日期排序和分组
+  const grouped = tasks.reduce((acc, task) => {
+    if (!acc[task.date]) acc[task.date] = [];
+    acc[task.date].push(task);
+    return acc;
+  }, {});
 
-// 这里用浏览器自带日期选择，避免额外依赖
-const datepicker = document.getElementById('datepicker');
-datepicker.type = 'date';
+  // 日期排序升序
+  const sortedDates = Object.keys(grouped).sort();
 
-const eventInput = document.getElementById('eventInput');
-const addEventBtn = document.getElementById('addEventBtn');
-const eventList = document.getElementById('eventList');
+  sortedDates.forEach(date => {
+    const groupDiv = document.createElement('div');
+    groupDiv.className = 'task-date-group';
 
-let events = JSON.parse(localStorage.getItem('events')) || {};
+    // 日期标题
+    const dateTitle = document.createElement('h3');
+    dateTitle.textContent = date;
+    groupDiv.appendChild(dateTitle);
 
-function renderEvents() {
-  eventList.innerHTML = '';
+    // 任务列表
+    const ul = document.createElement('ul');
+    ul.className = 'task-list';
 
-  const dates = Object.keys(events).sort();
-  dates.forEach(date => {
-    events[date].forEach((eventText, idx) => {
+    grouped[date].forEach((task, index) => {
       const li = document.createElement('li');
-      li.textContent = `${date} - ${eventText}`;
+      li.className = task.completed ? 'completed' : '';
 
-      const delBtn = document.createElement('button');
-      delBtn.textContent = '删除';
-      delBtn.title = '删除事件';
-      delBtn.addEventListener('click', () => {
-        events[date].splice(idx, 1);
-        if (events[date].length === 0) delete events[date];
-        saveEvents();
-        renderEvents();
+      // 复选框
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.checked = task.completed;
+      checkbox.addEventListener('change', () => {
+        // 更新对应任务完成状态
+        const globalIndex = tasks.findIndex(t => t.id === task.id);
+        if (globalIndex !== -1) {
+          tasks[globalIndex].completed = checkbox.checked;
+          saveTasks();
+          renderTasks();
+        }
       });
 
+      li.appendChild(checkbox);
+
+      // 任务文本
+      const span = document.createElement('span');
+      span.textContent = task.text;
+      li.appendChild(span);
+
+      // 删除按钮
+      const delBtn = document.createElement('button');
+      delBtn.textContent = '删除';
+      delBtn.title = '删除任务';
+      delBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        const globalIndex = tasks.findIndex(t => t.id === task.id);
+        if (globalIndex !== -1) {
+          tasks.splice(globalIndex, 1);
+          saveTasks();
+          renderTasks();
+        }
+      });
       li.appendChild(delBtn);
-      eventList.appendChild(li);
+
+      ul.appendChild(li);
     });
+
+    groupDiv.appendChild(ul);
+    taskListContainer.appendChild(groupDiv);
   });
 }
 
-function saveEvents() {
-  localStorage.setItem('events', JSON.stringify(events));
-}
-
-addEventBtn.addEventListener('click', () => {
-  const date = datepicker.value.trim();
-  const text = eventInput.value.trim();
-
+// 添加任务
+addTaskBtn.addEventListener('click', () => {
+  const date = datepicker.value;
+  const text = taskInput.value.trim();
   if (!date) {
-    alert('请选择日期');
+    alert('请选择日期！');
     return;
   }
   if (!text) {
-    alert('请输入事件内容');
+    alert('请输入任务内容！');
     return;
   }
-
-  if (!events[date]) events[date] = [];
-  events[date].push(text);
-
-  saveEvents();
-  renderEvents();
-
-  eventInput.value = '';
-  eventInput.focus();
+  tasks.push({
+    id: Date.now(),
+    date,
+    text,
+    completed: false,
+  });
+  saveTasks();
+  renderTasks();
+  taskInput.value = '';
+  datepicker.value = '';
+  taskInput.focus();
 });
 
-renderEvents();
+// 支持回车键添加任务（任务输入框或日期选中时）
+taskInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    addTaskBtn.click();
+  }
+});
+datepicker.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    addTaskBtn.click();
+  }
+});
+
+// 清空所有任务
+clearAllBtn.addEventListener('click', () => {
+  if (confirm('确认清空所有任务吗？')) {
+    tasks = [];
+    saveTasks();
+    renderTasks();
+  }
+});
+
+renderTasks();
