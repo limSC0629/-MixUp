@@ -19,15 +19,26 @@ function renderTasks() {
   taskList.innerHTML = '';
   tasks.forEach((task, index) => {
     const li = document.createElement('li');
-    li.textContent = task.text;
     li.className = task.completed ? 'completed' : '';
 
-    // 点击切换完成状态
-    li.addEventListener('click', () => {
-      tasks[index].completed = !tasks[index].completed;
+    // 创建复选框
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = task.completed;
+    checkbox.style.marginRight = '10px';
+
+    checkbox.addEventListener('change', () => {
+      tasks[index].completed = checkbox.checked;
       saveTasks();
       renderTasks();
     });
+
+    li.appendChild(checkbox);
+
+    // 任务文本
+    const span = document.createElement('span');
+    span.textContent = task.text;
+    li.appendChild(span);
 
     // 删除按钮
     const delBtn = document.createElement('button');
@@ -45,35 +56,6 @@ function renderTasks() {
   });
 }
 
-function saveTasks() {
-  localStorage.setItem('tasks', JSON.stringify(tasks));
-}
-
-addTaskBtn.addEventListener('click', () => {
-  const val = taskInput.value.trim();
-  if (val) {
-    tasks.push({ text: val, completed: false });
-    saveTasks();
-    renderTasks();
-    taskInput.value = '';
-    taskInput.focus();
-  }
-});
-
-taskInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter') addTaskBtn.click();
-});
-
-// 清空所有任务按钮
-clearTasksBtn.addEventListener('click', () => {
-  if (confirm('确定要清空所有任务吗？')) {
-    tasks = [];
-    saveTasks();
-    renderTasks();
-  }
-});
-
-renderTasks();
 
 // ----------- 日历提醒 ------------------
 
