@@ -33,7 +33,7 @@ function renderTasks() {
     delBtn.textContent = '删除';
     delBtn.title = '删除任务';
     delBtn.addEventListener('click', (e) => {
-      e.stopPropagation(); // 阻止li点击事件
+      e.stopPropagation();
       tasks.splice(index, 1);
       saveTasks();
       renderTasks();
@@ -65,6 +65,85 @@ taskInput.addEventListener('keydown', (e) => {
 
 renderTasks();
 
+
+// ====== 日历提醒 ======
+const picker = new Pikaday({
+  field: document.getElementById('datepicker'),
+  format: 'YYYY-MM-DD',
+  toString(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  },
+  parse(dateString) {
+    const parts = dateString.split('-');
+    return new Date(parts[0], parts[1] - 1, parts[2]);
+  }
+});
+
+const eventInput = document.getElementById('eventInput');
+const addEventBtn = document.getElementById('addEventBtn');
+const eventList = document.getElementById('eventList');
+
+let events = JSON.parse(localStorage.getItem('events')) || {};
+
+function renderEvents() {
+  eventList.innerHTML = '';
+
+  // 按日期排序
+  const dates = Object.keys(events).sort();
+
+  dates.forEach(date => {
+    events[date].forEach((eventText, idx) => {
+      const li = document.createElement('li');
+      li.textContent = `${date} - ${eventText}`;
+
+      // 删除按钮
+      const delBtn = document.createElement('button');
+      delBtn.textContent = '删除';
+      delBtn.title = '删除事件';
+      delBtn.addEventListener('click', () => {
+        events[date].splice(idx, 1);
+        if (events[date].length === 0) delete events[date];
+        saveEvents();
+        renderEvents();
+      });
+
+      li.appendChild(delBtn);
+      eventList.appendChild(li);
+    });
+  });
+}
+
+function saveEvents() {
+  localStorage.setItem('events', JSON.stringify(events));
+}
+
+addEventBtn.addEventListener('click', () => {
+  const date = document.getElementById('datepicker').value.trim();
+  const text = eventInput.value.trim();
+
+  if (!date) {
+    alert('请选择日期');
+    return;
+  }
+  if (!text) {
+    alert('请输入事件内容');
+    return;
+  }
+
+  if (!events[date]) events[date] = [];
+  events[date].push(text);
+
+  saveEvents();
+  renderEvents();
+
+  eventInput.value = '';
+  eventInput.focus();
+});
+
+renderEvents();
 
 // ====== 日历提醒 ======
 const picker = new Pikaday({
