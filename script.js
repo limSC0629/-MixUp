@@ -1,119 +1,102 @@
-// 页面切换
-function showPage(pageId) {
+// 切换页面
+function showPage(id) {
   document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
   document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
-  document.getElementById(pageId).classList.add("active");
+  document.getElementById(id).classList.add("active");
   event.target.classList.add("active");
 }
 
-// 笔记功能
+// 本地笔记
 const notesInput = document.getElementById('notesInput');
 notesInput.value = localStorage.getItem('notes') || '';
 notesInput.addEventListener('input', () => {
   localStorage.setItem('notes', notesInput.value);
 });
 
-// 每日计划功能
+// 任务系统
+let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
 const taskInput = document.getElementById('taskInput');
 const taskList = document.getElementById('taskList');
-let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
 function renderTasks() {
   taskList.innerHTML = '';
-  tasks.forEach((task, index) => {
+  tasks.forEach((task, i) => {
     const div = document.createElement('div');
     div.className = 'task' + (task.completed ? ' completed' : '');
     div.innerHTML = `
-      <label>
-        <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask(${index})">
-        <span>${task.text}</span>
-      </label>
-      <button onclick="deleteTask(${index})">删除</button>
-    `;
+      <label><input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask(${i})">
+      <span>${task.text}</span></label>
+      <button onclick="deleteTask(${i})">删除</button>`;
     taskList.appendChild(div);
   });
 }
-
 function addTask() {
   const text = taskInput.value.trim();
   if (text) {
     tasks.push({ text, completed: false });
-    taskInput.value = '';
     saveTasks();
+    taskInput.value = '';
     renderTasks();
   }
 }
-
-function toggleTask(index) {
-  tasks[index].completed = !tasks[index].completed;
+function toggleTask(i) {
+  tasks[i].completed = !tasks[i].completed;
   saveTasks();
   renderTasks();
 }
-
-function deleteTask(index) {
-  tasks.splice(index, 1);
+function deleteTask(i) {
+  tasks.splice(i, 1);
   saveTasks();
   renderTasks();
 }
-
 function clearTasks() {
-  if (confirm("确定要清空所有计划？")) {
+  if (confirm("确定清空所有计划？")) {
     tasks = [];
     saveTasks();
     renderTasks();
   }
 }
-
 function saveTasks() {
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }
-
 renderTasks();
 
-// 提醒事项功能
+// 提醒系统
+let reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
 const reminderInput = document.getElementById('reminderInput');
 const reminderList = document.getElementById('reminderList');
-let reminders = JSON.parse(localStorage.getItem('reminders')) || [];
 
 function renderReminders() {
   reminderList.innerHTML = '';
-  reminders.forEach((text, index) => {
+  reminders.forEach((text, i) => {
     const div = document.createElement('div');
     div.className = 'task';
-    div.innerHTML = `
-      <span>${text}</span>
-      <button onclick="deleteReminder(${index})">删除</button>
-    `;
+    div.innerHTML = `<span>${text}</span><button onclick="deleteReminder(${i})">删除</button>`;
     reminderList.appendChild(div);
   });
 }
-
 function addReminder() {
   const text = reminderInput.value.trim();
   if (text) {
     reminders.push(text);
-    reminderInput.value = '';
     saveReminders();
+    reminderInput.value = '';
     renderReminders();
   }
 }
-
-function deleteReminder(index) {
-  reminders.splice(index, 1);
+function deleteReminder(i) {
+  reminders.splice(i, 1);
   saveReminders();
   renderReminders();
 }
-
 function clearReminders() {
-  if (confirm("确定要清空所有提醒？")) {
+  if (confirm("确定清空所有提醒？")) {
     reminders = [];
     saveReminders();
     renderReminders();
   }
 }
-
 function saveReminders() {
   localStorage.setItem('reminders', JSON.stringify(reminders));
 }
-
 renderReminders();
