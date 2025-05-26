@@ -42,23 +42,47 @@ section h2 {
   border-bottom: 2px solid #3498db;
   padding-bottom: 5px;
 }
+textarea {
+  width: 100%;
+  height: 160px;
+  resize: vertical;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 16px;
+  font-family: inherit;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+  transition: border-color 0.3s;
+}
+textarea:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 8px #3498dbaa;
+}
 .task-input-group {
   display: flex;
   gap: 10px;
   margin-bottom: 15px;
+  flex-wrap: wrap;
 }
-input[type="text"] {
-  flex: 1;
+input[type="date"], input[type="text"] {
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 6px;
   transition: border-color 0.3s;
 }
-input[type="text"]:focus {
+input[type="date"]:focus, input[type="text"]:focus {
   outline: none;
   border-color: #3498db;
   box-shadow: 0 0 8px #3498dbaa;
+}
+input[type="date"] {
+  width: 150px;
+}
+input[type="text"] {
+  flex: 1;
+  min-width: 150px;
 }
 button {
   background-color: #3498db;
@@ -69,15 +93,31 @@ button {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s;
+  white-space: nowrap;
 }
 button:hover {
   background-color: #2980b9;
 }
-.task-list {
+#clearAllBtn {
+  background-color: #e74c3c;
+}
+#clearAllBtn:hover {
+  background-color: #c0392b;
+}
+.task-date-group {
+  margin-bottom: 20px;
+}
+.task-date-group h3 {
+  color: #2c3e50;
+  border-bottom: 1px solid #bdc3c7;
+  padding-bottom: 4px;
+  margin-bottom: 10px;
+}
+ul.task-list {
   list-style: none;
   padding-left: 0;
 }
-.task-list li {
+ul.task-list li {
   background: #ecf0f1;
   margin-bottom: 10px;
   padding: 12px 15px;
@@ -87,84 +127,41 @@ button:hover {
   align-items: center;
   font-size: 16px;
   color: #2c3e50;
-  cursor: pointer;
 }
 ul.task-list li.completed span {
   text-decoration: line-through;
   color: #95a5a6;
 }
-.task-list li button {
+ul.task-list li button {
   background-color: #e74c3c;
   padding: 6px 12px;
   font-size: 14px;
   border-radius: 5px;
 }
-.task-list li button:hover {
+ul.task-list li button:hover {
   background-color: #c0392b;
 }
-#datepicker, #eventInput {
-  padding: 8px 12px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+ul.task-list li input[type="checkbox"] {
   margin-right: 10px;
-  transition: border-color 0.3s;
-}
-#datepicker:focus, #eventInput:focus {
-  outline: none;
-  border-color: #3498db;
-  box-shadow: 0 0 8px #3498dbaa;
-}
-#addEventBtn {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
+  transform: scale(1.2);
   cursor: pointer;
-  transition: background-color 0.3s;
-}
-#addEventBtn:hover {
-  background-color: #2980b9;
-}
-#eventList {
-  list-style: none;
-  padding-left: 0;
-  margin-top: 15px;
-}
-#eventList li {
-  background: #ecf0f1;
-  margin-bottom: 8px;
-  padding: 10px 14px;
-  border-radius: 6px;
-  font-size: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-#eventList li button {
-  background-color: #e74c3c;
-  padding: 4px 10px;
-  font-size: 14px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-}
-#eventList li button:hover {
-  background-color: #c0392b;
 }
 @media (max-width: 480px) {
   main {
     padding: 15px 20px;
   }
-  input[type="text"], #datepicker, #eventInput {
+  textarea {
+    height: 130px;
+  }
+  button {
+    padding: 0 14px;
     font-size: 14px;
   }
-  button, #addEventBtn {
-    padding: 6px 14px;
+  ul.task-list li {
     font-size: 14px;
   }
-  .task-list li, #eventList li {
-    font-size: 14px;
+  input[type="date"] {
+    width: 100%;
   }
 }
+
