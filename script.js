@@ -100,3 +100,62 @@ function saveReminders() {
   localStorage.setItem('reminders', JSON.stringify(reminders));
 }
 renderReminders();
+
+let notes = JSON.parse(localStorage.getItem('notesList') || '[]');
+let editingIndex = -1;
+
+const noteTitle = document.getElementById('noteTitle');
+const noteContent = document.getElementById('noteContent');
+const notesList = document.getElementById('notesList');
+
+function renderNotes() {
+  notesList.innerHTML = '';
+  notes.forEach((note, i) => {
+    const div = document.createElement('div');
+    div.className = 'note-card';
+    div.innerHTML = `
+      <h3>${note.title || '无标题'}</h3>
+      <p>${note.content}</p>
+      <div class="note-actions">
+        <button class="edit" onclick="editNote(${i})">编辑</button>
+        <button onclick="deleteNote(${i})">删除</button>
+      </div>`;
+    notesList.appendChild(div);
+  });
+}
+
+function saveNote() {
+  const title = noteTitle.value.trim();
+  const content = noteContent.value.trim();
+  if (!content) return alert("请输入内容");
+
+  if (editingIndex >= 0) {
+    notes[editingIndex] = { title, content };
+    editingIndex = -1;
+  } else {
+    notes.push({ title, content });
+  }
+
+  localStorage.setItem('notesList', JSON.stringify(notes));
+  noteTitle.value = '';
+  noteContent.value = '';
+  renderNotes();
+}
+
+function editNote(i) {
+  noteTitle.value = notes[i].title;
+  noteContent.value = notes[i].content;
+  editingIndex = i;
+  noteContent.scrollIntoView({ behavior: 'smooth' });
+}
+
+function deleteNote(i) {
+  if (confirm("确认删除该笔记？")) {
+    notes.splice(i, 1);
+    localStorage.setItem('notesList', JSON.stringify(notes));
+    renderNotes();
+  }
+}
+
+renderNotes();
+
