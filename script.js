@@ -6,14 +6,14 @@ function showPage(pageId) {
   event.target.classList.add("active");
 }
 
-// 笔记本地存储
+// 笔记功能
 const notesInput = document.getElementById('notesInput');
 notesInput.value = localStorage.getItem('notes') || '';
 notesInput.addEventListener('input', () => {
   localStorage.setItem('notes', notesInput.value);
 });
 
-// 任务管理功能
+// 每日计划功能
 const taskInput = document.getElementById('taskInput');
 const taskList = document.getElementById('taskList');
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -57,7 +57,7 @@ function deleteTask(index) {
 }
 
 function clearTasks() {
-  if (confirm("确定要清空所有任务？")) {
+  if (confirm("确定要清空所有计划？")) {
     tasks = [];
     saveTasks();
     renderTasks();
@@ -69,3 +69,51 @@ function saveTasks() {
 }
 
 renderTasks();
+
+// 提醒事项功能
+const reminderInput = document.getElementById('reminderInput');
+const reminderList = document.getElementById('reminderList');
+let reminders = JSON.parse(localStorage.getItem('reminders')) || [];
+
+function renderReminders() {
+  reminderList.innerHTML = '';
+  reminders.forEach((text, index) => {
+    const div = document.createElement('div');
+    div.className = 'task';
+    div.innerHTML = `
+      <span>${text}</span>
+      <button onclick="deleteReminder(${index})">删除</button>
+    `;
+    reminderList.appendChild(div);
+  });
+}
+
+function addReminder() {
+  const text = reminderInput.value.trim();
+  if (text) {
+    reminders.push(text);
+    reminderInput.value = '';
+    saveReminders();
+    renderReminders();
+  }
+}
+
+function deleteReminder(index) {
+  reminders.splice(index, 1);
+  saveReminders();
+  renderReminders();
+}
+
+function clearReminders() {
+  if (confirm("确定要清空所有提醒？")) {
+    reminders = [];
+    saveReminders();
+    renderReminders();
+  }
+}
+
+function saveReminders() {
+  localStorage.setItem('reminders', JSON.stringify(reminders));
+}
+
+renderReminders();
