@@ -39,16 +39,15 @@
 
   <section id="notes">
   <div class="container">
-    <h1>📝 NoteFun - 我的笔记</h1>
-
-    <div class="note-form">
-      <input type="text" id="noteTitle" placeholder="输入笔记标题..." />
-      <textarea id="noteContent" placeholder="写点什么..." rows="4"></textarea>
-      <button onclick="saveNote()">💾 保存</button>
+    <h1>📝 我的笔记</h1>
+    <textarea id="note" placeholder="写点内容吧..."></textarea>
+    <div class="button-group">
+      <button id="saveBtn">💾 保存笔记</button>
+      <button id="loadBtn">📂 载入笔记</button>
+      <button id="clearBtn">🗑️ 清空笔记</button>
     </div>
-
-    <h2>📚 已保存笔记</h2>
-    <div id="notesList" class="notes-list"></div>
+    <p>📌 当前保存内容：</p>
+    <div id="output" class="output-box">(暂无内容)</div>
   </div>
 </section>
 
