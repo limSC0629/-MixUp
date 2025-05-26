@@ -1,103 +1,75 @@
-// 页面切换功能
-const buttons = document.querySelectorAll('nav button');
-const sections = document.querySelectorAll('section');
+// 显示当前时间
+function updateTime() {
+  const now = new Date();
+  const timeStr = now.toLocaleString('zh-CN', { hour12: false });
+  document.getElementById('timeDisplay').textContent = '当前时间：' + timeStr;
+}
+setInterval(updateTime, 1000);
+updateTime();
 
-buttons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    sections.forEach(s => s.classList.remove('active'));
-    document.getElementById(btn.dataset.section).classList.add('active');
-  });
-});
-
-// 1. 笔记管理
-const notes = document.getElementById('notes');
-const saveNotesBtn = document.getElementById('saveNotesBtn');
-const notesStatus = document.getElementById('notesStatus');
-notes.value = localStorage.getItem('notes') || '';
-saveNotesBtn.addEventListener('click', () => {
-  localStorage.setItem('notes', notes.value);
-  notesStatus.textContent = '笔记已保存！';
-  setTimeout(() => notesStatus.textContent = '', 2000);
-});
-
-// 2. 任务清单
+// ====== 待办事项 ======
 const taskInput = document.getElementById('taskInput');
+const addTaskBtn = document.getElementById('addTaskBtn');
 const taskList = document.getElementById('taskList');
+
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
 function renderTasks() {
   taskList.innerHTML = '';
-  tasks.forEach((task, i) => {
+  tasks.forEach((task, index) => {
     const li = document.createElement('li');
-    li.textContent = task;
+    li.textContent = task.text;
+    li.className = task.completed ? 'completed' : '';
 
+    // 点击切换完成状态
+    li.addEventListener('click', () => {
+      tasks[index].completed = !tasks[index].completed;
+      saveTasks();
+      renderTasks();
+    });
+
+    // 删除按钮
     const delBtn = document.createElement('button');
     delBtn.textContent = '删除';
-    delBtn.onclick = () => {
-      tasks.splice(i, 1);
-      localStorage.setItem('tasks', JSON.stringify(tasks));
+    delBtn.title = '删除任务';
+    delBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // 阻止li点击事件
+      tasks.splice(index, 1);
+      saveTasks();
       renderTasks();
-    };
+    });
+
     li.appendChild(delBtn);
     taskList.appendChild(li);
   });
 }
-renderTasks();
 
-taskInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && taskInput.value.trim()) {
-    tasks.push(taskInput.value.trim());
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    taskInput.value = '';
+function saveTasks() {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+addTaskBtn.addEventListener('click', () => {
+  const val = taskInput.value.trim();
+  if (val) {
+    tasks.push({ text: val, completed: false });
+    saveTasks();
     renderTasks();
+    taskInput.value = '';
+    taskInput.focus();
   }
 });
 
-// 3. 简易日历提醒
-const calendar = document.getElementById('calendar');
-const eventDate = document.getElementById('eventDate');
-const eventDesc = document.getElementById('eventDesc');
-const addEventBtn = document.getElementById('addEventBtn');
-const eventList = document.getElementById('eventList');
-let events = JSON.parse(localStorage.getItem('events')) || [];
+taskInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') addTaskBtn.click();
+});
 
-function renderEvents() {
-  eventList.innerHTML = '';
-  events.forEach((ev, i) => {
-    const li = document.createElement('li');
-    li.textContent = `${ev.date}: ${ev.desc}`;
+renderTasks();
 
-    const delBtn = document.createElement('button');
-    delBtn.textContent = '删除';
-    delBtn.onclick = () => {
-      events.splice(i, 1);
-      localStorage.setItem('events', JSON.stringify(events));
-      renderEvents();
-    };
-    li.appendChild(delBtn);
-    eventList.appendChild(li);
-  });
-}
-renderEvents();
 
-addEventBtn.onclick = () => {
-  if (!eventDate.value || !eventDesc.value.trim()) return alert('请选择日期并输入事件描述');
-  events.push({ date: eventDate.value, desc: eventDesc.value.trim() });
-  localStorage.setItem('events', JSON.stringify(events));
-  eventDate.value = '';
-  eventDesc.value = '';
-  renderEvents();
-};
-
-// 4. 收藏夹
-const bookmarkName = document.getElementById('bookmarkName');
-const bookmarkURL = document.getElementById('bookmarkURL');
-const addBookmarkBtn = document.getElementById('addBookmarkBtn');
-const bookmarkList = document.getElementById('bookmarkList');
-let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
-
-function renderBookmarks() {
-  bookmarkList.innerHTML = '';
-  bookmarks.forEach((bm, i) => {
-    const li = document.createElement('li');
-    const a = document.create
+// ====== 日历提醒 ======
+const picker = new Pikaday({
+  field: document.getElementById('datepicker'),
+  format: 'YYYY-MM-DD',
+  toString(date, format) {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth()+1).toString().padStart(2,
