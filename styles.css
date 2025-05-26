@@ -139,3 +139,71 @@ textarea {
   resize: vertical;
 }
 
+.note-input {
+  max-width: 600px;
+  margin: 0 auto 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.note-input input,
+.note-input textarea {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.note-input button {
+  align-self: flex-end;
+  padding: 8px 16px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.note-list {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.note-card {
+  background: #fff;
+  border-left: 6px solid #3498db;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.note-card h3 {
+  margin: 0 0 5px;
+}
+
+.note-card p {
+  margin: 0 0 10px;
+  color: #555;
+}
+
+.note-card .note-actions {
+  text-align: right;
+}
+
+.note-card button {
+  margin-left: 8px;
+  background: none;
+  border: none;
+  color: #e74c3c;
+  cursor: pointer;
+  font-size: 14px;
+}
+.note-card button.edit {
+  color: #2980b9;
+}
+
