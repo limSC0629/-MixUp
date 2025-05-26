@@ -101,70 +101,29 @@ function saveReminders() {
 }
 renderReminders();
 
-let notes = JSON.parse(localStorage.getItem('notesList')) || [];
-let editingIndex = -1;
+const noteInput = document.getElementById("note");
+const output = document.getElementById("output");
+const saveBtn = document.getElementById("saveBtn");
+const loadBtn = document.getElementById("loadBtn");
+const clearBtn = document.getElementById("clearBtn");
 
-const noteTitle = document.getElementById('noteTitle');
-const noteContent = document.getElementById('noteContent');
-const notesList = document.getElementById('notesList');
+saveBtn.addEventListener("click", () => {
+  const content = noteInput.value;
+  localStorage.setItem("myNote", content);
+  alert("✅ 已保存笔记！");
+  output.innerText = content || "(空)";
+});
 
-function renderNotes() {
-  notesList.innerHTML = '';
-  notes.forEach((note, index) => {
-    const card = document.createElement('div');
-    card.className = 'note-card';
-    card.innerHTML = `
-      <h3>${note.title || '无标题'}</h3>
-      <p>${note.content}</p>
-      <div class="note-actions">
-        <button onclick="editNote(${index})">编辑</button>
-        <button class="delete" onclick="deleteNote(${index})">删除</button>
-      </div>
-    `;
-    notesList.appendChild(card);
-  });
-}
+loadBtn.addEventListener("click", () => {
+  const savedNote = localStorage.getItem("myNote");
+  noteInput.value = savedNote || "";
+  output.innerText = savedNote || "(空)";
+});
 
-function saveNote() {
-  const title = noteTitle.value.trim();
-  const content = noteContent.value.trim();
-
-  if (!content) {
-    alert('请输入笔记内容');
-    return;
-  }
-
-  const newNote = { title, content };
-
-  if (editingIndex >= 0) {
-    notes[editingIndex] = newNote;
-    editingIndex = -1;
-  } else {
-    notes.push(newNote);
-  }
-
-  localStorage.setItem('notesList', JSON.stringify(notes));
-  noteTitle.value = '';
-  noteContent.value = '';
-  renderNotes();
-}
-
-function editNote(index) {
-  const note = notes[index];
-  noteTitle.value = note.title;
-  noteContent.value = note.content;
-  editingIndex = index;
-  noteTitle.scrollIntoView({ behavior: 'smooth' });
-}
-
-function deleteNote(index) {
-  if (confirm('确定要删除这条笔记吗？')) {
-    notes.splice(index, 1);
-    localStorage.setItem('notesList', JSON.stringify(notes));
-    renderNotes();
-  }
-}
-
-renderNotes();
+clearBtn.addEventListener("click", () => {
+  localStorage.removeItem("myNote");
+  noteInput.value = "";
+  output.innerText = "(已清空)";
+});
 
 
