@@ -139,23 +139,32 @@ textarea {
   resize: vertical;
 }
 
-.note-input {
-  max-width: 600px;
-  margin: 0 auto 20px;
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+h1, h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.note-form {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 30px;
 }
 
-.note-input input,
-.note-input textarea {
+.note-form input,
+.note-form textarea {
   padding: 10px;
   font-size: 16px;
   border-radius: 6px;
   border: 1px solid #ccc;
 }
 
-.note-input button {
+.note-form button {
   align-self: flex-end;
   padding: 8px 16px;
   background-color: #27ae60;
@@ -163,47 +172,53 @@ textarea {
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
-.note-list {
-  max-width: 600px;
-  margin: 0 auto;
+.note-form button:hover {
+  background-color: #219150;
+}
+
+.notes-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 }
 
 .note-card {
   background: #fff;
-  border-left: 6px solid #3498db;
+  border-left: 5px solid #3498db;
   padding: 15px;
   border-radius: 8px;
-  text-align: left;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  position: relative;
 }
 
 .note-card h3 {
-  margin: 0 0 5px;
+  margin-bottom: 5px;
 }
 
 .note-card p {
-  margin: 0 0 10px;
   color: #555;
+  white-space: pre-wrap;
 }
 
-.note-card .note-actions {
-  text-align: right;
+.note-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
-.note-card button {
-  margin-left: 8px;
+.note-actions button {
   background: none;
   border: none;
-  color: #e74c3c;
+  color: #2980b9;
+  margin-left: 8px;
   cursor: pointer;
   font-size: 14px;
-}
-.note-card button.edit {
-  color: #2980b9;
+  transition: 0.2s;
 }
 
+.note-actions button.delete {
+  color: #e74c3c;
+}
