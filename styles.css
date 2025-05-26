@@ -1,16 +1,28 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   margin: 0;
   padding: 0;
-  background: #f9f9f9;
+  background-color: #f0f4f8;
+  color: #333;
   text-align: center;
+}
+
+h1 {
+  margin-top: 30px;
+  font-size: 28px;
+  color: #2c3e50;
 }
 
 nav {
   background-color: #3498db;
+  padding: 12px;
   display: flex;
   justify-content: center;
-  padding: 10px 0;
+  gap: 20px;
 }
 
 nav button {
@@ -18,13 +30,13 @@ nav button {
   border: none;
   color: white;
   font-size: 16px;
-  margin: 0 15px;
+  padding: 6px 12px;
   cursor: pointer;
 }
 
 nav button.active {
-  text-decoration: underline;
   font-weight: bold;
+  border-bottom: 2px solid white;
 }
 
 section {
@@ -36,69 +48,94 @@ section.active {
   display: block;
 }
 
-textarea {
-  width: 90%;
-  height: 200px;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 6px;
-  margin: 0 auto;
-}
-
 .task-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 40px;
-  flex-wrap: wrap;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .task-column {
-  width: 300px;
-  text-align: left;
-  background: #fff;
-  padding: 15px;
+  width: 320px;
+  background: white;
+  padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.task-column h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #2980b9;
 }
 
 .task-input-group {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 15px;
 }
 
-.task-input-group input[type="text"] {
+.task-input-group input {
   flex: 1;
   padding: 8px;
-  font-size: 16px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.task-input-group button {
+  padding: 8px 12px;
+  background-color: #3498db;
+  border: none;
+  color: white;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.task-input-group button:hover {
+  background-color: #2980b9;
 }
 
 .task {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f0f0f0;
-  margin-bottom: 8px;
+  background: #ecf0f1;
+  margin-bottom: 10px;
   padding: 10px;
   border-radius: 6px;
 }
 
 .task.completed span {
   text-decoration: line-through;
-  color: #999;
+  color: #888;
 }
 
 .task button {
-  margin-left: 10px;
   background: #e74c3c;
-  color: white;
   border: none;
+  color: white;
   border-radius: 4px;
-  cursor: pointer;
   padding: 4px 8px;
+  cursor: pointer;
 }
 
 .task input[type="checkbox"] {
-  margin-right: 10px;
+  margin-right: 8px;
 }
+
+textarea {
+  width: 90%;
+  max-width: 800px;
+  height: 250px;
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  resize: vertical;
+}
+
