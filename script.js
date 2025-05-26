@@ -1,4 +1,4 @@
-// 切换页面
+// 页面切换功能
 function showPage(id) {
   document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
   document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
@@ -6,14 +6,7 @@ function showPage(id) {
   event.target.classList.add("active");
 }
 
-// 本地笔记
-const notesInput = document.getElementById('notesInput');
-notesInput.value = localStorage.getItem('notes') || '';
-notesInput.addEventListener('input', () => {
-  localStorage.setItem('notes', notesInput.value);
-});
-
-// 任务系统
+// ========== 每日计划功能 ==========
 let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
 const taskInput = document.getElementById('taskInput');
 const taskList = document.getElementById('taskList');
@@ -61,7 +54,7 @@ function saveTasks() {
 }
 renderTasks();
 
-// 提醒系统
+// ========== 提醒功能 ==========
 let reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
 const reminderInput = document.getElementById('reminderInput');
 const reminderList = document.getElementById('reminderList');
@@ -101,6 +94,7 @@ function saveReminders() {
 }
 renderReminders();
 
+// ========== 笔记功能 ==========
 const noteInput = document.getElementById("note");
 const output = document.getElementById("output");
 const saveBtn = document.getElementById("saveBtn");
@@ -126,5 +120,10 @@ clearBtn.addEventListener("click", () => {
   output.innerText = "(已清空)";
 });
 
+// 可选：自动保存每次输入的内容
+noteInput.addEventListener("input", () => {
+  localStorage.setItem("myNote", noteInput.value);
+  output.innerText = noteInput.value || "(空)";
+});
 
 
