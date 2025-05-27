@@ -3,78 +3,165 @@
   --fg-light: #222;
   --bg-dark: #222;
   --fg-dark: #eee;
+  --sidebar-bg: #444;
+  --sidebar-hover-bg: #666;
+  --sidebar-active-bg: #2196F3;
+  --border-color: #ccc;
 }
 
+/* 主题样式，注意 body 用类 light / dark 控制 */
 body.light {
-  background: var(--bg-light);
+  background-color: var(--bg-light);
   color: var(--fg-light);
 }
 
 body.dark {
-  background: var(--bg-dark);
+  background-color: var(--bg-dark);
   color: var(--fg-dark);
 }
 
+/* 基础重置 */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  transition: background 0.3s, color 0.3s;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+/* 布局 */
 #container {
   display: flex;
+  flex: 1;
   height: 100vh;
+  overflow: hidden;
 }
 
+/* 侧边栏 */
 #sidebar {
   width: 160px;
-  background: #444;
+  background-color: var(--sidebar-bg);
   color: white;
   display: flex;
   flex-direction: column;
+  user-select: none;
+  overflow-y: auto;
 }
 
 #sidebar button {
   background: transparent;
   border: none;
   color: white;
-  padding: 15px;
+  padding: 15px 20px;
   text-align: left;
   cursor: pointer;
   border-bottom: 1px solid #555;
   font-size: 16px;
+  outline: none;
+  transition: background-color 0.3s ease;
 }
 
 #sidebar button:hover {
-  background: #666;
+  background-color: var(--sidebar-hover-bg);
 }
 
 #sidebar button.active {
-  background: #2196F3;
+  background-color: var(--sidebar-active-bg);
 }
 
+/* 主内容区 */
 #main {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+  background-color: inherit;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
 }
 
+/* 顶部栏 */
 .topbar {
   margin-bottom: 10px;
 }
 
-.border {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
+/* 按钮通用样式 */
 button {
   cursor: pointer;
 }
 
+/* 带边框的容器 */
+.border {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 10px;
+  background-color: inherit;
+  color: inherit;
+}
+
+/* 搜索结果高亮 */
 mark {
-  background: yellow;
+  background-color: yellow;
   color: black;
+}
+
+/* 文本域样式 */
+textarea {
+  width: 100%;
+  height: 120px;
+  resize: vertical;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background-color: inherit;
+  color: inherit;
+  box-sizing: border-box;
+}
+
+/* 输入框样式 */
+input[type="text"], input[type="date"], input[type="time"] {
+  padding: 6px 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background-color: inherit;
+  color: inherit;
+  box-sizing: border-box;
+  margin-right: 8px;
+}
+
+/* 列表样式 */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 小按钮 */
+.small-btn {
+  background-color: var(--sidebar-active-bg);
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-left: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.small-btn:hover {
+  background-color: #0b7dda;
 }
 
 
