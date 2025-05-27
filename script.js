@@ -99,35 +99,75 @@ function saveReminders() {
 renderReminders();
 
 // ========== 笔记功能 ==========
-const noteInput = document.getElementById("note");
-const output = document.getElementById("output");
-const saveBtn = document.getElementById("saveBtn");
-const loadBtn = document.getElementById("loadBtn");
-const clearBtn = document.getElementById("clearBtn");
+function generateId() {
+  return Date.now().toString();
+}
 
-saveBtn.addEventListener("click", () => {
-  const content = noteInput.value;
-  localStorage.setItem("myNote", content);
-  alert("✅ 已保存笔记！");
-  output.innerText = content || "(空)";
-});
+function getNotes() {
+  return JSON.parse(localStorage.getItem("allNotes") || "[]");
+}
 
-loadBtn.addEventListener("click", () => {
-  const savedNote = localStorage.getItem("myNote");
-  noteInput.value = savedNote || "";
-  output.innerText = savedNote || "(空)";
-});
+function saveNotes(notes) {
+  localStorage.setItem("allNotes", JSON.stringify(notes));
+}
 
-clearBtn.addEventListener("click", () => {
-  localStorage.removeItem("myNote");
-  noteInput.value = "";
-  output.innerText = "(已清空)";
-});
+function renderSavedNotes() {
+  const notes = getNotes();
+  const list = document.getElementById("savedNotesList");
+  list.innerHTML = "";
 
-// 可选：自动保存每次输入的内容
-noteInput.addEventListener("input", () => {
-  localStorage.setItem("myNote", noteInput.value);
-  output.innerText = noteInput.value || "(空)";
-});
+  if (notes.length === 0) {
+    list.innerHTML = "<p>（暂无保存的笔记）</p>";
+    return;
+  }
 
+  notes.forEach(note => {
+    const div = document.createElement("div");
+    div.className = "note-item";
+    div.innerHTML = `
+      <div class="note-preview">
+        <strong>${note.title}</strong>
+        <div class="note-actions">
+          <button onclick="loadNote('${note.id}')">📂 载入</button>
+          <button onclick="deleteNote('${note.id}')">🗑️ 删除</button>
+        </div>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+}
 
+function saveNote() {
+  const content = document.getElementById("noteInput").value.trim();
+  if (!content) return alert("请先输入笔记内容！");
+  const title = prompt("给这条笔记取个标题：", "无标题");
+  if (title === null) return;
+
+  const notes = getNotes();
+  notes.push({ id: generateId(), title: title || "无标题", content });
+  saveNotes(notes);
+  alert("✅ 已保存！");
+  document.getElementById("noteInput").value = "";
+  renderSavedNotes();
+}
+
+function loadNote(id) {
+  const note = getNotes().find(n => n.id === id);
+  if (!note) return;
+  document.getElementById("noteInput").value = note.content;
+  alert(`📂 已载入笔记「${note.title}」`);
+}
+
+function deleteNote(id) {
+  if (!confirm("确定要删除这条笔记吗？")) return;
+  const notes = getNotes().filter(n => n.id !== id);
+  saveNotes(notes);
+  renderSavedNotes();
+}
+
+function clearEditor() {
+  document.getElementById("noteInput").value = "";
+}
+
+// 初始化笔记列表
+renderSavedNotes();
