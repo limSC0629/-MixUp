@@ -311,6 +311,115 @@ input[type="file"]:hover {
   border-bottom: 1px solid #eee;
 }
 
+/* 文字溢出处理，防止内容超出 */
+.note-preview strong,
+.task span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 深色模式 */
+body.dark {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+body.dark main {
+  background: #2c2c2c;
+}
+
+body.dark nav button {
+  background: #444;
+  color: #ddd;
+}
+
+body.dark nav button.active {
+  background: #4a90e2;
+  color: white;
+}
+
+body.dark .task-column {
+  background: #2e2e2e;
+}
+
+body.dark input,
+body.dark textarea,
+body.dark select {
+  background: #444;
+  color: #fff;
+  border-color: #666;
+}
+
+body.dark input:focus,
+body.dark textarea:focus,
+body.dark select:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 8px #4a90e2aa;
+}
+
+body.dark .saved-notes-list {
+  background-color: #2a2a2a;
+  border-color: #555;
+}
+
+body.dark .note-item:hover {
+  background-color: #3a3a3a;
+}
+
+/* 移动端响应式优化 */
+@media (max-width: 480px) {
+  main {
+    padding: 20px 15px;
+  }
+
+  form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  form input,
+  form select,
+  form button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .button-group button {
+    width: 100%;
+  }
+}
+
+/* 导入文件选择按钮 */
+input[type="file"] {
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  background: white;
+  user-select: none;
+  transition: border-color 0.3s;
+}
+
+input[type="file"]:hover {
+  border-color: #4a90e2;
+}
+
+/* 任务列表样式 */
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border-bottom: 1px solid #eee;
+}
+
 /* 夜晚模式 */
 body.dark {
   background: #1e1e1e;
