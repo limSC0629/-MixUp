@@ -1,435 +1,113 @@
-:root {
-  --bg: #ffffff;
-  --text: #000000;
-  --card: #f0f0f0;
-}
-
-body.dark {
-  --bg: #121212;
-  --text: #ffffff;
-  --card: #1e1e1e;
-}
-
 body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: var(--bg);
-  color: var(--text);
+  padding: 0;
+  background-color: #f4f4f4;
+  color: #333;
   transition: background-color 0.3s, color 0.3s;
 }
 
 header {
-  background: var(--card);
-  padding: 1rem;
+  background-color: #6c5ce7;
+  color: white;
+  padding: 1rem 2rem;
   text-align: center;
-  border-bottom: 1px solid #ccc;
 }
 
 .mode-toggle {
-  margin-top: 0.5rem;
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  font-size: 0.9rem;
+  color: white;
 }
 
 main {
-  padding: 1rem;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
 }
 
 section {
-  background: var(--card);
-  padding: 1rem;
-  margin-bottom: 1rem;
+  background: white;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
   border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
 }
 
-input, textarea, button {
-  margin: 0.25rem 0;
-  padding: 0.5rem;
+h2 {
+  margin-top: 0;
+}
+
+input[type="text"],
+input[type="datetime-local"],
+textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 100%;
   box-sizing: border-box;
 }
 
+textarea {
+  height: 100px;
+  resize: vertical;
+}
+
 button {
-  background: #007bff;
-  color: #fff;
-  cursor: pointer;
+  padding: 0.5rem 1rem;
+  background-color: #6c5ce7;
+  color: white;
   border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background-color 0.2s;
 }
 
 button:hover {
-  background: #0056b3;
+  background-color: #5a4bcf;
 }
 
 ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-ul li {
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-  background: #e0e0e0;
-  border-radius: 4px;
-}
-
-body.dark ul li {
-  background: #333;
-}
-
-#notesContainer div {
-  margin-top: 0.5rem;
-  padding: 0.5rem;
-  background: #ddd;
-  border-radius: 4px;
-  white-space: pre-wrap;
-}
-
-body.dark #notesContainer div {
-  background: #2a2a2a;
+  list-style-type: disc;
+  padding-left: 1.5rem;
 }
 
 footer {
   text-align: center;
-  padding: 1rem;
-  font-size: 0.8rem;
+  padding: 1.5rem;
+  background-color: #eee;
+  color: #666;
+  margin-top: 3rem;
+}
+
+.dark-mode {
+  background-color: #222;
+  color: #eee;
+}
+
+.dark-mode header {
+  background-color: #444;
+}
+
+.dark-mode section {
+  background-color: #333;
+  color: #eee;
+}
+
+.dark-mode footer {
+  background-color: #111;
   color: #888;
 }
 
-header h1 {
-  margin: 0;
-  font-weight: 700;
-  font-size: 1.9rem;
-  letter-spacing: 0.05em;
-  text-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
-  flex-grow: 1;
-  min-width: 200px;
+.dark-mode input,
+.dark-mode textarea {
+  background-color: #555;
+  color: #fff;
+  border: 1px solid #777;
 }
-
-/* ==== 导航按钮 ==== */
-nav button {
-  background: rgba(255 255 255 / 0.85);
-  border: none;
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-weight: 600;
-  font-size: 1rem;
-  color: #0ea5e9;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  box-shadow: 0 3px 6px rgb(14 165 233 / 0.3);
-  flex-shrink: 0;
-  user-select: none;
-}
-nav button:hover {
-  background: white;
-  color: #0284c7;
-  box-shadow: 0 5px 14px rgb(2 132 199 / 0.5);
-}
-nav button.active {
-  background: #0284c7;
-  color: white;
-  box-shadow: 0 6px 18px rgb(2 132 199 / 0.8);
-  cursor: default;
-}
-
-/* ==== 主体区域 ==== */
-main {
-  max-width: 900px;
-  margin: 24px auto 60px;
-}
-
-/* ==== 页面切换 ==== */
-.page {
-  display: none;
-  animation: fadeIn 0.6s ease forwards;
-}
-.page.active {
-  display: block;
-}
-@keyframes fadeIn {
-  from {opacity: 0; transform: translateY(12px);}
-  to {opacity: 1; transform: translateY(0);}
-}
-
-/* ==== 页面标题 ==== */
-h2 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-  position: relative;
-  padding-bottom: 8px;
-  color: #0369a1;
-  letter-spacing: 0.03em;
-  border-bottom: 3px solid #38bdf8;
-}
-h2::after {
-  content: "";
-  position: absolute;
-  width: 50px;
-  height: 3px;
-  background: #0284c7;
-  bottom: 0;
-  left: 0;
-  border-radius: 6px;
-}
-
-/* ==== 副标题提示文字 ==== */
-.subtitle {
-  color: #64748b;
-  font-size: 0.9rem;
-  margin-bottom: 16px;
-  font-weight: 500;
-}
-
-/* ==== 表单区域 ==== */
-.form-group {
-  margin-bottom: 14px;
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-input[type="text"],
-input[type="search"],
-input[type="date"],
-select,
-textarea {
-  flex-grow: 1;
-  min-width: 160px;
-  padding: 12px 14px;
-  font-size: 1rem;
-  border-radius: 12px;
-  border: 1.8px solid #bae6fd;
-  box-shadow: inset 0 2px 4px rgb(59 130 246 / 0.1);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  outline-offset: 3px;
-}
-input[type="text"]:focus,
-input[type="search"]:focus,
-input[type="date"]:focus,
-select:focus,
-textarea:focus {
-  border-color: #0284c7;
-  box-shadow: 0 0 8px #38bdf8;
-  outline: none;
-}
-textarea {
-  min-height: 120px;
-  resize: vertical;
-}
-
-/* ==== 按钮 ==== */
-button {
-  background: #0284c7;
-  color: white;
-  border-radius: 12px;
-  padding: 12px 22px;
-  font-weight: 700;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 6px 16px rgb(2 132 199 / 0.6);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease;
-  user-select: none;
-}
-button:hover {
-  background: #0369a1;
-  box-shadow: 0 8px 20px rgb(3 105 161 / 0.9);
-  transform: translateY(-2px);
-}
-button:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 12px rgb(3 105 161 / 0.7);
-}
-
-/* ==== 列表容器 ==== */
-.list {
-  background: white;
-  border-radius: 20px;
-  padding: 20px 24px;
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.1);
-  max-height: 400px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #38bdf8 transparent;
-}
-.list::-webkit-scrollbar {
-  width: 8px;
-}
-.list::-webkit-scrollbar-thumb {
-  background-color: #38bdf8;
-  border-radius: 12px;
-}
-
-/* ==== 单个任务/提醒/笔记卡片 ==== */
-.task, .note-item {
-  background: #f0f9ff;
-  border-radius: 18px;
-  margin-bottom: 14px;
-  padding: 16px 22px;
-  box-shadow: 0 4px 12px rgb(3 105 161 / 0.15);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  transition: background-color 0.3s ease;
-}
-.task.completed, .task.completed span {
-  color: #94a3b8;
-  text-decoration: line-through;
-}
-.task:hover, .note-item:hover {
-  background: #dbeafe;
-  box-shadow: 0 6px 16px rgb(3 105 161 / 0.3);
-}
-
-/* ==== 任务描述 ==== */
-.task label {
-  flex-grow: 1;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1rem;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.task label strong {
-  background: #38bdf8;
-  color: white;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: 30px;
-  font-size: 0.85rem;
-  user-select: none;
-  flex-shrink: 0;
-  box-shadow: 0 3px 8px rgb(56 189 248 / 0.7);
-}
-
-/* ==== 截止时间 ==== */
-.task small {
-  font-weight: 500;
-  color: #475569;
-  font-size: 0.85rem;
-}
-
-/* ==== 删除按钮 ==== */
-.task button, .note-actions button {
-  background: #f87171;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  box-shadow: 0 4px 12px rgb(248 113 113 / 0.7);
-  user-select: none;
-  transition: background-color 0.3s ease;
-}
-.task button:hover, .note-actions button:hover {
-  background: #dc2626;
-  box-shadow: 0 6px 16px rgb(220 38 38 / 0.9);
-}
-
-/* ==== 任务复选框 ==== */
-.task input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  accent-color: #0284c7;
-  flex-shrink: 0;
-}
-
-/* ==== 笔记预览 ==== */
-.note-item .note-preview {
-  flex-grow: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  font-weight: 500;
-}
-.note-item p {
-  margin: 0;
-  font-size: 1rem;
-  color: #334155;
-  user-select: text;
-  flex-grow: 1;
-}
-.note-item small {
-  color: #64748b;
-  font-weight: 600;
-  font-size: 0.85rem;
-}
-
-/* ==== 笔记操作按钮 ==== */
-.note-actions {
-  display: flex;
-  gap: 8px;
-}
-
-/* ==== 搜索输入 ==== */
-input[type="search"] {
-  max-width: 300px;
-  margin-bottom: 12px;
-}
-
-/* ==== 统计信息 ==== */
-.stats {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #475569;
-  margin-bottom: 12px;
-  text-align: right;
-  user-select: none;
-}
-
-/* ==== 深色模式支持 ==== */
-body.dark {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  color: #cbd5e1;
-}
-body.dark header {
-  background: #0369a1;
-  box-shadow: 0 4px 12px rgb(3 105 161 / 0.8);
-}
-body.dark nav button {
-  background: rgba(255 255 255 / 0.1);
-  color: #bae6fd;
-  box-shadow: none;
-}
-body.dark nav button.active {
-  background: #38bdf8;
-  color: #1e293b;
-  box-shadow: 0 6px 18px rgb(56 189 248 / 0.9);
-}
-body.dark main {
-  max-width: 900px;
-  margin: 24px auto 60px;
-}
-body.dark .list {
-  background: #1e293b;
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.5);
-  color: #cbd5e1;
-}
-body.dark .task, body.dark .note-item {
-  background: #334155;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.6);
-}
-body.dark .task:hover, body.dark .note-item:hover {
-  background: #475569;
-}
-body.dark button {
-  background: #38bdf8;
-  color: #1e293b;
-  box-shadow: 0 6px 16px rgb(56 189 248 / 0.7);
-}
-body.dark button:hover {
-  background: #0284c7;
-  box-shadow: 0 8px 20px rgb(2 132 199 / 0.9);
-}
-body.dark input[type="text"],
-body.dark input[type="search"],
-body.dark input[type="date"],
-body.dark select,
-body.dark textarea {
  
