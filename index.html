@@ -40,15 +40,16 @@
   <section id="notes">
   <div class="container">
     <h1>📝 我的笔记</h1>
-    <textarea id="noteInput" placeholder="写点内容吧..."></textarea>
+    <textarea id="noteInput" placeholder="写点内容吧..." spellcheck="false"></textarea>
     <div class="button-group">
-      <button onclick="saveNote()">💾 保存笔记</button>
-      <button onclick="clearEditor()">🗑️ 清空输入</button>
+      <button id="saveBtn">💾 保存笔记</button>
+      <button id="clearBtn">🗑️ 清空输入</button>
     </div>
     <h3>📚 已保存的笔记：</h3>
-    <div id="savedNotesList"></div>
+    <div id="savedNotesList" class="saved-notes-list">(暂无保存的笔记)</div>
   </div>
 </section>
+
   
   <script src="script.js"></script>
 </body>
