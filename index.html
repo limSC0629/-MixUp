@@ -1,45 +1,35 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>杂铺</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>杂铺 MixUp</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <header>
-    <h1>杂铺</h1>
-    <p>一个帮你整理生活、学习与创意的小工具集</p>
-  </header>
+<body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white transition-colors">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-60 bg-white dark:bg-gray-800 shadow-lg p-4">
+      <h1 class="text-2xl font-bold mb-6">杂铺 MixUp</h1>
+      <nav>
+        <ul class="space-y-3">
+          <li><button onclick="loadPage('tasks')" class="w-full text-left">📅 每日事务</button></li>
+          <li><button onclick="loadPage('notes')" class="w-full text-left">📝 笔记本</button></li>
+          <li><button onclick="loadPage('reminders')" class="w-full text-left">⏰ 提醒</button></li>
+        </ul>
+      </nav>
+    </aside>
 
-  <main>
-    <section class="card">
-      <h2>📒 便签笔记</h2>
-      <textarea id="noteInput" placeholder="写下你的笔记..."></textarea>
-      <button onclick="saveNote()">保存</button>
-      <div id="noteOutput"></div>
-    </section>
+    <!-- Main Content -->
+    <main class="flex-1 p-6 overflow-y-auto">
+      <div id="app">
+        <p>欢迎使用「杂铺 MixUp」！请选择左侧功能开始使用。</p>
+      </div>
+    </main>
+  </div>
 
-    <section class="card">
-      <h2>🗓️ 每日计划</h2>
-      <input id="todoInput" placeholder="添加一项任务..." />
-      <button onclick="addTodo()">添加</button>
-      <ul id="todoList"></ul>
-    </section>
-
-    <section class="card">
-      <h2>⏰ 提醒事项</h2>
-      <input id="reminderInput" placeholder="提醒内容" />
-      <input type="time" id="reminderTime" />
-      <button onclick="setReminder()">设置提醒</button>
-      <div id="reminderOutput"></div>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2025 杂铺 MixUp | 由你亲手打造的小助手</p>
-  </footer>
-
-  <script src="script.js"></script>
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
 </body>
 </html>
+
