@@ -1,60 +1,47 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>杂铺 MixUp</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="icon" href="assets/logo.png" />
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header>
-    <h1>🧃 杂铺 MixUp</h1>
-    <nav class="nav-bar">
-      <button class="nav-btn active" data-target="dailyTasks">📅 每日事务</button>
-      <button class="nav-btn" data-target="reminders">⏰ 提醒</button>
-      <button class="nav-btn" data-target="notes">📝 笔记</button>
-      <button class="nav-btn" data-target="tools">🔧 工具</button>
-    </nav>
-    <div class="mode-toggle">
-      <label>
-        <input type="checkbox" id="darkModeToggle" /> 深色模式
-      </label>
-    </div>
+    <h1>🧃杂铺 MixUp</h1>
+    <label class="mode-toggle">
+      <input type="checkbox" id="darkModeToggle"> 深色模式
+    </label>
   </header>
 
   <main>
-    <section id="dailyTasks" class="page active">
+    <section>
       <h2>📅 每日事务</h2>
-      <div class="input-group">
-        <input type="text" id="dailyInput" placeholder="添加事务..." />
-        <button id="addTaskBtn">添加</button>
-      </div>
-      <ul id="dailyList" class="item-list"></ul>
+      <input type="text" id="taskInput" placeholder="输入今日事务...">
+      <button onclick="addTask()">添加</button>
+      <ul id="taskList"></ul>
     </section>
 
-    <section id="reminders" class="page">
+    <section>
       <h2>⏰ 提醒</h2>
-      <div class="input-group">
-        <input type="text" id="reminderInput" placeholder="提醒内容" />
-        <input type="datetime-local" id="reminderTime" />
-        <button id="addReminderBtn">添加</button>
-      </div>
-      <ul id="reminderList" class="item-list"></ul>
+      <input type="text" id="reminderInput" placeholder="提醒事项">
+      <input type="datetime-local" id="reminderTime">
+      <button onclick="addReminder()">添加提醒</button>
+      <ul id="reminderList"></ul>
     </section>
 
-    <section id="notes" class="page">
+    <section>
       <h2>📝 笔记</h2>
-      <textarea id="noteInput" placeholder="写点什么..."></textarea>
-      <button id="saveNoteBtn">保存</button>
-      <div id="notesContainer" class="notes-container"></div>
+      <textarea id="noteInput" placeholder="写下你的笔记..."></textarea>
+      <button onclick="saveNote()">保存笔记</button>
+      <div id="noteContainer"></div>
     </section>
 
-    <section id="tools" class="page">
-      <h2>🔧 工具</h2>
-      <button id="exportBtn">导出数据</button>
-      <input type="file" id="importFile" accept=".json" />
-      <button id="importBtn">导入数据</button>
+    <section>
+      <h2>🧰 数据导入导出</h2>
+      <button onclick="exportData()">导出数据</button>
+      <input type="file" id="importFile" accept=".json">
+      <button onclick="importData()">导入数据</button>
     </section>
   </main>
 
