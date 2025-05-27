@@ -162,4 +162,24 @@ button {
   font-size: 15px;
   color: #2c3e50;
 }
+.note-item {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.note-preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.note-actions button {
+  margin-left: 8px;
+  font-size: 14px;
+  padding: 4px 8px;
+}
 
