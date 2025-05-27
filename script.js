@@ -1,140 +1,106 @@
-// 页面切换
-document.querySelectorAll("nav button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const targetId = btn.dataset.target;
-    if (!targetId) return;
+// 页面切换功能
+function showPage(id, button) {
+  // 隐藏所有页面
+  document.querySelectorAll("main section").forEach(s => s.classList.remove("active"));
+  // 移除所有按钮的激活状态
+  document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
 
-    // 切换section
-    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
-    document.getElementById(targetId).classList.add("active");
-
-    // 切换按钮激活状态
-    document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-  });
-});
+  // 显示目标页面，激活当前按钮
+  document.getElementById(id).classList.add("active");
+  button.classList.add("active");
+}
 
 // ========== 每日计划功能 ==========
 let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-
 const taskInput = document.getElementById('taskInput');
 const taskList = document.getElementById('taskList');
-const addTaskBtn = document.getElementById('addTaskBtn');
-const clearTasksBtn = document.getElementById('clearTasksBtn');
 
 function renderTasks() {
+  if (!taskList) return; // 安全检查
   taskList.innerHTML = '';
   tasks.forEach((task, i) => {
     const div = document.createElement('div');
     div.className = 'task' + (task.completed ? ' completed' : '');
     div.innerHTML = `
-      <label><input type="checkbox" ${task.completed ? 'checked' : ''} data-index="${i}" class="task-checkbox">
-      <span>${task.text}</span></label>
-      <button data-index="${i}" class="delete-task-btn">删除</button>
-    `;
+      <label><input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask(${i})">
+      <span>${escapeHtml(task.text)}</span></label>
+      <button onclick="deleteTask(${i})">删除</button>`;
     taskList.appendChild(div);
   });
 }
-
-// 事件委托处理计划的勾选与删除
-taskList.addEventListener('change', e => {
-  if (e.target.classList.contains('task-checkbox')) {
-    const i = e.target.dataset.index;
-    tasks[i].completed = e.target.checked;
-    saveTasks();
-    renderTasks();
-  }
-});
-
-taskList.addEventListener('click', e => {
-  if (e.target.classList.contains('delete-task-btn')) {
-    const i = e.target.dataset.index;
-    tasks.splice(i, 1);
-    saveTasks();
-    renderTasks();
-  }
-});
-
-addTaskBtn.onclick = () => {
+function addTask() {
   const text = taskInput.value.trim();
-  if (!text) return alert("请输入计划内容！");
-  tasks.push({ text, completed: false });
+  if (text) {
+    tasks.push({ text, completed: false });
+    saveTasks();
+    taskInput.value = '';
+    renderTasks();
+  }
+}
+function toggleTask(i) {
+  tasks[i].completed = !tasks[i].completed;
   saveTasks();
-  taskInput.value = '';
   renderTasks();
-};
-
-clearTasksBtn.onclick = () => {
+}
+function deleteTask(i) {
+  tasks.splice(i, 1);
+  saveTasks();
+  renderTasks();
+}
+function clearTasks() {
   if (confirm("确定清空所有计划？")) {
     tasks = [];
     saveTasks();
     renderTasks();
   }
-};
-
+}
 function saveTasks() {
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }
-
 renderTasks();
 
 // ========== 提醒功能 ==========
 let reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
-
 const reminderInput = document.getElementById('reminderInput');
 const reminderList = document.getElementById('reminderList');
-const addReminderBtn = document.getElementById('addReminderBtn');
-const clearRemindersBtn = document.getElementById('clearRemindersBtn');
 
 function renderReminders() {
+  if (!reminderList) return;
   reminderList.innerHTML = '';
   reminders.forEach((text, i) => {
     const div = document.createElement('div');
     div.className = 'task';
-    div.innerHTML = `<span>${text}</span><button data-index="${i}" class="delete-reminder-btn">删除</button>`;
+    div.innerHTML = `<span>${escapeHtml(text)}</span><button onclick="deleteReminder(${i})">删除</button>`;
     reminderList.appendChild(div);
   });
 }
-
-// 事件委托处理提醒删除
-reminderList.addEventListener('click', e => {
-  if (e.target.classList.contains('delete-reminder-btn')) {
-    const i = e.target.dataset.index;
-    reminders.splice(i, 1);
+function addReminder() {
+  const text = reminderInput.value.trim();
+  if (text) {
+    reminders.push(text);
     saveReminders();
+    reminderInput.value = '';
     renderReminders();
   }
-});
-
-addReminderBtn.onclick = () => {
-  const text = reminderInput.value.trim();
-  if (!text) return alert("请输入提醒内容！");
-  reminders.push(text);
+}
+function deleteReminder(i) {
+  reminders.splice(i, 1);
   saveReminders();
-  reminderInput.value = '';
   renderReminders();
-};
-
-clearRemindersBtn.onclick = () => {
+}
+function clearReminders() {
   if (confirm("确定清空所有提醒？")) {
     reminders = [];
     saveReminders();
     renderReminders();
   }
-};
-
+}
 function saveReminders() {
   localStorage.setItem('reminders', JSON.stringify(reminders));
 }
-
 renderReminders();
 
 // ========== 笔记功能 ==========
-const noteInput = document.getElementById('noteInput');
-const savedNotesList = document.getElementById('savedNotesList');
-const saveBtn = document.getElementById('saveBtn');
-const clearBtn = document.getElementById('clearBtn');
-
 function generateId() {
   return Date.now().toString();
 }
@@ -147,24 +113,14 @@ function saveNotes(notes) {
   localStorage.setItem("allNotes", JSON.stringify(notes));
 }
 
-function escapeHtml(text) {
-  return text.replace(/[&<>"']/g, function(m) {
-    return {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;'
-    }[m];
-  });
-}
-
 function renderSavedNotes() {
   const notes = getNotes();
-  savedNotesList.innerHTML = "";
+  const list = document.getElementById("savedNotesList");
+  if (!list) return;
+  list.innerHTML = "";
 
   if (notes.length === 0) {
-    savedNotesList.innerHTML = "<p>（暂无保存的笔记）</p>";
+    list.innerHTML = "<p>（暂无保存的笔记）</p>";
     return;
   }
 
@@ -175,29 +131,19 @@ function renderSavedNotes() {
       <div class="note-preview">
         <strong>${escapeHtml(note.title)}</strong>
         <div class="note-actions">
-          <button class="load-note-btn" data-id="${note.id}">📂 载入</button>
-          <button class="delete-note-btn" data-id="${note.id}">🗑️ 删除</button>
+          <button onclick="loadNote('${note.id}')">📂 载入</button>
+          <button onclick="deleteNote('${note.id}')">🗑️ 删除</button>
         </div>
       </div>
     `;
-    savedNotesList.appendChild(div);
+    list.appendChild(div);
   });
 }
 
-// 事件委托处理笔记的载入与删除
-savedNotesList.addEventListener('click', e => {
-  if (e.target.classList.contains('load-note-btn')) {
-    const id = e.target.dataset.id;
-    loadNote(id);
-  }
-  if (e.target.classList.contains('delete-note-btn')) {
-    const id = e.target.dataset.id;
-    deleteNote(id);
-  }
-});
-
 function saveNote() {
-  const content = noteInput.value.trim();
+  const textarea = document.getElementById("noteInput");
+  if (!textarea) return;
+  const content = textarea.value.trim();
   if (!content) {
     alert("⚠️ 请先输入笔记内容！");
     return;
@@ -209,7 +155,7 @@ function saveNote() {
   notes.push({ id: generateId(), title: title.trim() || "无标题", content });
   saveNotes(notes);
   alert("✅ 已保存笔记！");
-  noteInput.value = "";
+  textarea.value = "";
   renderSavedNotes();
 }
 
@@ -219,7 +165,9 @@ function loadNote(id) {
     alert("❌ 找不到该笔记");
     return;
   }
-  noteInput.value = note.content;
+  const textarea = document.getElementById("noteInput");
+  if (!textarea) return;
+  textarea.value = note.content;
   alert(`📂 已载入笔记「${note.title}」`);
 }
 
@@ -230,11 +178,8 @@ function deleteNote(id) {
   renderSavedNotes();
 }
 
-function clearInput() {
-  noteInput.value = "";
-}
+function clearInput()
 
-saveBtn.onclick = saveNote;
 clearBtn.onclick = clearInput;
 
 renderSavedNotes();
