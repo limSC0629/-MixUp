@@ -126,7 +126,7 @@ function renderSavedNotes() {
     div.className = "note-item";
     div.innerHTML = `
       <div class="note-preview">
-        <strong>${note.title}</strong>
+        <strong>${escapeHtml(note.title)}</strong>
         <div class="note-actions">
           <button onclick="loadNote('${note.id}')">📂 载入</button>
           <button onclick="deleteNote('${note.id}')">🗑️ 删除</button>
@@ -138,36 +138,60 @@ function renderSavedNotes() {
 }
 
 function saveNote() {
-  const content = document.getElementById("noteInput").value.trim();
-  if (!content) return alert("请先输入笔记内容！");
-  const title = prompt("给这条笔记取个标题：", "无标题");
-  if (title === null) return;
+  const textarea = document.getElementById("noteInput");
+  const content = textarea.value.trim();
+  if (!content) {
+    alert("⚠️ 请先输入笔记内容！");
+    return;
+  }
+  const title = prompt("给这条笔记取个标题：", content.slice(0, 15) || "无标题");
+  if (title === null) return; // 取消保存
 
   const notes = getNotes();
-  notes.push({ id: generateId(), title: title || "无标题", content });
+  notes.push({ id: generateId(), title: title.trim() || "无标题", content });
   saveNotes(notes);
-  alert("✅ 已保存！");
-  document.getElementById("noteInput").value = "";
+  alert("✅ 已保存笔记！");
+  textarea.value = "";
   renderSavedNotes();
 }
 
 function loadNote(id) {
   const note = getNotes().find(n => n.id === id);
-  if (!note) return;
+  if (!note) {
+    alert("❌ 找不到该笔记");
+    return;
+  }
   document.getElementById("noteInput").value = note.content;
   alert(`📂 已载入笔记「${note.title}」`);
 }
 
 function deleteNote(id) {
-  if (!confirm("确定要删除这条笔记吗？")) return;
+  if (!confirm("确定删除这条笔记吗？")) return;
   const notes = getNotes().filter(n => n.id !== id);
   saveNotes(notes);
   renderSavedNotes();
 }
 
-function clearEditor() {
+function clearInput() {
   document.getElementById("noteInput").value = "";
 }
 
-// 初始化笔记列表
+// 防XSS简单转义
+function escapeHtml(text) {
+  return text.replace(/[&<>"']/g, function(m) {
+    return {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[m];
+  });
+}
+
+// 绑定按钮事件
+document.getElementById("saveBtn").onclick = saveNote;
+document.getElementById("clearBtn").onclick = clearInput;
+
+// 页面加载时渲染笔记列表
 renderSavedNotes();
