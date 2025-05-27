@@ -9,54 +9,40 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
   });
 });
 
-// 夜间模式切换
-const toggle = document.getElementById('darkModeToggle');
-toggle.addEventListener('change', () => {
+// 夜间模式
+const darkToggle = document.getElementById('darkModeToggle');
+darkToggle.addEventListener('change', () => {
   document.body.classList.toggle('dark');
   localStorage.setItem('darkMode', document.body.classList.contains('dark'));
 });
+
 if (localStorage.getItem('darkMode') === 'true') {
   document.body.classList.add('dark');
-  toggle.checked = true;
+  darkToggle.checked = true;
 }
 
-// 每日事务
-function addTask() {
-  const input = document.getElementById('taskInput');
+// 添加计划
+function addPlan() {
+  const input = document.getElementById('planInput');
   if (input.value.trim()) {
     const li = document.createElement('li');
     li.textContent = input.value;
     li.onclick = () => li.remove();
-    document.getElementById('taskList').appendChild(li);
+    document.getElementById('planList').appendChild(li);
     input.value = '';
   }
 }
 
-// 计划与提醒
-function addReminder() {
-  const content = document.getElementById('reminderInput').value;
-  const time = document.getElementById('reminderTime').value;
-  if (content && time) {
-    const li = document.createElement('li');
-    li.textContent = `${content} @ ${time}`;
-    li.onclick = () => li.remove();
-    document.getElementById('reminderList').appendChild(li);
-    document.getElementById('reminderInput').value = '';
-    document.getElementById('reminderTime').value = '';
-  }
-}
-
-// 笔记
+// 保存笔记
 function saveNote() {
-  const noteText = document.getElementById('noteInput').value;
-  if (noteText.trim()) {
+  const note = document.getElementById('noteInput').value.trim();
+  if (note) {
     const div = document.createElement('div');
-    div.textContent = noteText;
+    div.textContent = note;
     div.onclick = () => div.remove();
     document.getElementById('notesContainer').appendChild(div);
     document.getElementById('noteInput').value = '';
   }
 }
-
 
 
