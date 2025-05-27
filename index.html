@@ -2,43 +2,46 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>杂铺 MixUp</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/logo.png">
 </head>
 <body>
   <header>
-    <h1>🧃杂铺 MixUp</h1>
-    <label class="mode-toggle">
-      <input type="checkbox" id="darkModeToggle"> 深色模式
-    </label>
+    <h1>🧃 杂铺 MixUp</h1>
+    <div class="mode-toggle">
+      <label>
+        <input type="checkbox" id="darkModeToggle"> 深色模式
+      </label>
+    </div>
   </header>
 
   <main>
-    <section>
+    <section id="dailyTasks">
       <h2>📅 每日事务</h2>
-      <input type="text" id="taskInput" placeholder="输入今日事务...">
+      <input type="text" id="dailyInput" placeholder="添加事务...">
       <button onclick="addTask()">添加</button>
-      <ul id="taskList"></ul>
+      <ul id="dailyList"></ul>
     </section>
 
-    <section>
+    <section id="reminders">
       <h2>⏰ 提醒</h2>
-      <input type="text" id="reminderInput" placeholder="提醒事项">
+      <input type="text" id="reminderInput" placeholder="提醒内容">
       <input type="datetime-local" id="reminderTime">
-      <button onclick="addReminder()">添加提醒</button>
+      <button onclick="addReminder()">添加</button>
       <ul id="reminderList"></ul>
     </section>
 
-    <section>
+    <section id="notes">
       <h2>📝 笔记</h2>
-      <textarea id="noteInput" placeholder="写下你的笔记..."></textarea>
-      <button onclick="saveNote()">保存笔记</button>
-      <div id="noteContainer"></div>
+      <textarea id="noteInput" placeholder="写点什么..."></textarea>
+      <button onclick="saveNote()">保存</button>
+      <div id="notesContainer"></div>
     </section>
 
-    <section>
-      <h2>🧰 数据导入导出</h2>
+    <section id="tools">
+      <h2>🔧 工具</h2>
       <button onclick="exportData()">导出数据</button>
       <input type="file" id="importFile" accept=".json">
       <button onclick="importData()">导入数据</button>
@@ -52,6 +55,7 @@
   <script src="js/script.js"></script>
 </body>
 </html>
+
 
 
 
