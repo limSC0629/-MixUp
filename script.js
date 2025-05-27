@@ -191,3 +191,4 @@ document.getElementById("saveBtn").addEventListener("click", saveNote);
 document.getElementById("clearBtn").addEventListener("click", clearNoteInput);
 
 renderSavedNotes();
+
