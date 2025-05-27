@@ -309,6 +309,7 @@ input[type="file"]:hover {
   align-items: center;
   padding: 8px 10px;
   border-bottom: 1px solid #eee;
+}
 
 /* 夜晚模式 */
 body.dark {
@@ -352,3 +353,4 @@ body.dark select:focus {
 body.dark .saved-notes-list {
   background-color: #2a2a2a;
   border-color: #555
+}
