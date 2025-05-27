@@ -1,58 +1,100 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>杂铺 MixUp</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="assets/logo.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>杂铺 MixUp 🎉 - 多功能学习助手</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
-    <h1>🧃 杂铺 MixUp</h1>
-    <div class="mode-toggle">
-      <label>
-        <input type="checkbox" id="darkModeToggle"> 深色模式
-      </label>
-    </div>
-  </header>
+  <nav>
+    <button class="active" onclick="showPage('intro', this)">🏠 介绍</button>
+    <button onclick="showPage('tasks', this)">📋 每日事务</button>
+    <button onclick="showPage('notes', this)">📝 笔记</button>
+    <button id="toggleDarkBtn" onclick="toggleDarkMode()">🌙 深色模式</button>
+  </nav>
 
   <main>
-    <section id="dailyTasks">
-      <h2>📅 每日事务</h2>
-      <input type="text" id="dailyInput" placeholder="添加事务...">
-      <button onclick="addTask()">添加</button>
-      <ul id="dailyList"></ul>
+    <section id="intro" class="page active">
+      <h1>欢迎使用杂铺 MixUp 🎉</h1>
+      <p>这是一个集每日计划、提醒和笔记功能于一体的多功能学习助手，帮你更好管理学习和生活。</p>
+      <ul>
+        <li>每日计划：支持任务优先级、截止日期、搜索、导入导出</li>
+        <li>提醒事项：支持截止时间、搜索、导入导出</li>
+        <li>笔记功能：支持标签分类、搜索、导入导出</li>
+        <li>深色模式切换，视觉更舒适</li>
+        <li>统计完成任务，激励进步</li>
+      </ul>
+      <p>导航栏点击即可切换页面，祝你使用愉快！</p>
     </section>
 
-    <section id="reminders">
-      <h2>⏰ 提醒</h2>
-      <input type="text" id="reminderInput" placeholder="提醒内容">
-      <input type="datetime-local" id="reminderTime">
-      <button onclick="addReminder()">添加</button>
-      <ul id="reminderList"></ul>
+    <section id="tasks" class="page">
+      <h1>🗓️ 每日事务中心</h1>
+      
+      <div class="search-group">
+        <input type="text" id="taskSearchInput" placeholder="搜索任务..." oninput="renderTasks()" />
+      </div>
+      
+      <div class="task-container">
+        <div class="task-column">
+          <h2>📆 每日计划</h2>
+          <form id="taskForm" onsubmit="event.preventDefault(); addTask();">
+            <input type="text" id="taskInput" placeholder="添加一个计划..." required />
+            <select id="taskPriority">
+              <option value="low">低优先级</option>
+              <option value="medium" selected>中优先级</option>
+              <option value="high">高优先级</option>
+            </select>
+            <input type="date" id="taskDueDate" />
+            <button type="submit">添加</button>
+            <button type="button" onclick="clearTasks()">清空</button>
+          </form>
+          <div id="taskStats" class="stats"></div>
+          <div id="taskList" class="list-container"></div>
+          <button class="small-btn" onclick="exportData('tasks')">导出任务</button>
+          <input type="file" id="importTasksInput" accept=".json" onchange="importData(event, 'tasks')" />
+        </div>
+
+        <div class="task-column">
+          <h2>⏰ 提醒事项</h2>
+          <form id="reminderForm" onsubmit="event.preventDefault(); addReminder();">
+            <input type="text" id="reminderInput" placeholder="添加一个提醒..." required />
+            <input type="time" id="reminderTime" />
+            <button type="submit">添加</button>
+            <button type="button" onclick="clearReminders()">清空</button>
+          </form>
+          <div class="search-group">
+            <input type="text" id="reminderSearchInput" placeholder="搜索提醒..." oninput="renderReminders()" />
+          </div>
+          <div id="reminderStats" class="stats"></div>
+          <div id="reminderList" class="list-container"></div>
+          <button class="small-btn" onclick="exportData('reminders')">导出提醒</button>
+          <input type="file" id="importRemindersInput" accept=".json" onchange="importData(event, 'reminders')" />
+        </div>
+      </div>
     </section>
 
-    <section id="notes">
-      <h2>📝 笔记</h2>
-      <textarea id="noteInput" placeholder="写点什么..."></textarea>
-      <button onclick="saveNote()">保存</button>
-      <div id="notesContainer"></div>
-    </section>
+    <section id="notes" class="page">
+      <h1>📝 我的笔记</h1>
 
-    <section id="tools">
-      <h2>🔧 工具</h2>
-      <button onclick="exportData()">导出数据</button>
-      <input type="file" id="importFile" accept=".json">
-      <button onclick="importData()">导入数据</button>
+      <div class="search-group">
+        <input type="text" id="noteSearchInput" placeholder="搜索笔记..." oninput="renderSavedNotes()" />
+      </div>
+
+      <textarea id="noteInput" placeholder="写点内容吧..." spellcheck="false"></textarea>
+      <input type="text" id="noteTags" placeholder="标签，用逗号分隔" />
+      <div class="button-group">
+        <button id="saveBtn">💾 保存笔记</button>
+        <button id="clearBtn">🗑️ 清空输入</button>
+      </div>
+      <h3>📚 已保存的笔记：</h3>
+      <div id="savedNotesList" class="saved-notes-list">(暂无保存的笔记)</div>
+      <button class="small-btn" onclick="exportData('notes')">导出笔记</button>
+      <input type="file" id="importNotesInput" accept=".json" onchange="importData(event, 'notes')" />
     </section>
   </main>
 
-  <footer>
-    <p>© 2025 杂铺 MixUp | Made with ❤️</p>
-  </footer>
-
-  <script src="js/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
 
