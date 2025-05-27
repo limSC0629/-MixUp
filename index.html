@@ -3,36 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>杂铺 MixUp - 每日事务</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="icon" href="assets/logo.png" />
+  <title>杂铺 MixUp - 单页版</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>🧃 杂铺 MixUp</h1>
-    <nav>
-      <button class="active" onclick="location.href='daily.html'">每日事务</button>
-      <button onclick="location.href='reminders.html'">提醒</button>
-      <button onclick="location.href='notes.html'">笔记</button>
-      <button onclick="location.href='tools.html'">工具</button>
+    <nav class="nav-bar">
+      <div class="nav-left">
+        <button class="nav-btn active" data-page="home">首页</button>
+        <button class="nav-btn" data-page="plan">计划</button>
+        <button class="nav-btn" data-page="notes">笔记</button>
+      </div>
+      <div class="nav-right">
+        <button id="toggle-theme" title="切换夜间模式">🌙</button>
+      </div>
     </nav>
   </header>
 
   <main>
-    <section id="dailyTasks">
-      <h2>📅 每日事务</h2>
+    <section id="home" class="content-section active">
+      <h1>欢迎来到杂铺 MixUp 🧃</h1>
+      <p>这是首页，输入点内容试试按钮吧！</p>
       <div class="input-group">
-        <input type="text" id="dailyInput" placeholder="添加事务..." />
-        <button onclick="addTask()">添加</button>
+        <input id="userInput" type="text" placeholder="请输入内容..." />
+        <button class="secondary-btn" id="showInputBtn">显示内容</button>
       </div>
-      <ul id="dailyList"></ul>
+    </section>
+
+    <section id="plan" class="content-section">
+      <h1>计划</h1>
+      <p>添加你的计划条目，支持删除。</p>
+      <div class="input-group">
+        <input id="planInput" type="text" placeholder="新计划内容..." />
+        <button class="secondary-btn" id="addPlanBtn">添加计划</button>
+      </div>
+      <ul id="planList" class="list-container"></ul>
+    </section>
+
+    <section id="notes" class="content-section">
+      <h1>笔记</h1>
+      <p>新增、编辑和删除你的笔记。</p>
+      <textarea id="noteInput" rows="4" placeholder="写点笔记内容..."></textarea>
+      <div style="margin: 1rem 0;">
+        <button class="secondary-btn" id="addNoteBtn">新增笔记</button>
+        <button class="secondary-btn" id="cancelEditBtn" style="display:none;">取消编辑</button>
+      </div>
+      <ul id="notesList" class="list-container"></ul>
     </section>
   </main>
 
   <footer>
-    <p>© 2025 杂铺 MixUp | Made with LSC ❤️</p>
+    <p>© 2025 杂铺 MixUp | Designed by 你</p>
   </footer>
 
-  <script src="js/daily.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
