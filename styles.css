@@ -1,122 +1,146 @@
-/* 全局重置和基础样式 */
+/* Reset & base */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f0f4f8;
+  background: #f9f9f9;
   color: #333;
-  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* 标题 */
-h1 {
-  margin-top: 30px;
-  font-size: 28px;
-  color: #2c3e50;
-}
-
-/* 导航栏 */
 nav {
-  background-color: #3498db;
-  padding: 12px;
+  background: #5a9bd4;
+  padding: 10px;
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 nav button {
-  background: none;
+  background: #7bb0e8;
   border: none;
   color: white;
   font-size: 16px;
-  padding: 6px 12px;
+  padding: 10px 18px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: color 0.3s;
+  transition: background 0.3s;
 }
 
-nav button.active {
-  font-weight: bold;
-  border-bottom: 2px solid white;
+nav button.active,
+nav button:hover {
+  background: #2f78c8;
 }
 
-/* 内容区块 */
+main {
+  flex-grow: 1;
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 15px 40px;
+  width: 100%;
+}
+
+/* Section切换 */
 section {
   display: none;
-  padding: 20px;
+  animation: fadeIn 0.4s ease forwards;
 }
 
 section.active {
   display: block;
 }
 
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
 /* 任务容器 */
 .task-container {
   display: flex;
+  gap: 30px;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 40px;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
-/* 任务列 */
 .task-column {
-  width: 320px;
+  flex: 1 1 400px;
   background: white;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: left;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
 .task-column h2 {
-  text-align: center;
   margin-bottom: 15px;
-  color: #2980b9;
+  color: #2f78c8;
+  font-weight: 600;
+  font-size: 1.3rem;
 }
 
-/* 任务输入组 */
 .task-input-group {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 15px;
 }
 
-.task-input-group input {
-  flex: 1;
-  padding: 8px;
-  font-size: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.task-input-group input[type="text"] {
+  flex-grow: 1;
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: 1.5px solid #ccc;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.task-input-group input[type="text"]:focus {
+  border-color: #2f78c8;
+  outline: none;
 }
 
 .task-input-group button {
-  padding: 8px 12px;
-  background-color: #3498db;
+  background: #2f78c8;
   border: none;
   color: white;
-  font-size: 14px;
-  border-radius: 5px;
+  padding: 10px 14px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-weight: 600;
+  transition: background 0.3s;
 }
 
 .task-input-group button:hover {
-  background-color: #2980b9;
+  background: #1c4f8b;
+}
+
+.list-container {
+  flex-grow: 1;
+  max-height: 320px;
+  overflow-y: auto;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
 }
 
 /* 任务项 */
 .task {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #ecf0f1;
+  background: #f0f6ff;
   margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 6px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1rem;
+  box-shadow: inset 0 0 4px #c7d9ff;
+  transition: background-color 0.3s;
 }
 
 .task.completed span {
@@ -124,145 +148,153 @@ section.active {
   color: #888;
 }
 
-/* 任务删除按钮 */
+.task label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  flex-grow: 1;
+}
+
+.task input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
 .task button {
-  background: #e74c3c;
+  background: #e55353;
   border: none;
   color: white;
-  border-radius: 4px;
-  padding: 4px 8px;
+  font-weight: 600;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  padding: 6px 10px;
+  margin-left: 10px;
+  transition: background 0.3s;
+  flex-shrink: 0;
 }
 
 .task button:hover {
-  background-color: #c0392b;
+  background: #a93232;
 }
 
-/* 任务复选框 */
-.task input[type="checkbox"] {
-  margin-right: 8px;
+/* 笔记部分 */
+.notes-container {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgb(0 0 0 / 0.1);
+  max-width: 700px;
+  margin: 20px auto 40px;
+  display: flex;
+  flex-direction: column;
 }
 
-/* 多行文本输入框 */
-textarea {
-  width: 100%;
-  height: 160px;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  resize: vertical;
-  font-size: 16px;
+.notes-container h1 {
+  color: #2f78c8;
   margin-bottom: 15px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  box-sizing: border-box;
-  transition: border-color 0.3s ease;
+  font-weight: 700;
 }
 
-textarea:focus {
+#noteInput {
+  resize: vertical;
+  min-height: 160px;
+  padding: 15px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1.5px solid #ccc;
+  margin-bottom: 15px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: border-color 0.3s;
+}
+
+#noteInput:focus {
+  border-color: #2f78c8;
   outline: none;
-  border-color: #3498db;
-  box-shadow: 0 0 6px #3498db;
 }
 
-/* 按钮组 */
 .button-group {
   display: flex;
-  gap: 10px;
-  justify-content: center;
+  gap: 15px;
   margin-bottom: 20px;
 }
 
-button {
-  padding: 10px 16px;
-  font-size: 15px;
+.button-group button {
+  background: #2f78c8;
   border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-/* 各按钮颜色 */
-#saveBtn {
-  background-color: #3498db;
   color: white;
-}
-
-#saveBtn:hover {
-  background-color: #2980b9;
-}
-
-#loadBtn {
-  background-color: #2ecc71;
-  color: white;
-}
-
-#loadBtn:hover {
-  background-color: #27ae60;
-}
-
-#clearBtn {
-  background-color: #e74c3c;
-  color: white;
-}
-
-#clearBtn:hover {
-  background-color: #c0392b;
-}
-
-/* 输出框 */
-.output-box {
-  background-color: #ecf0f1;
-  padding: 12px;
-  border-radius: 6px;
-  min-height: 60px;
-  white-space: pre-wrap;
-  font-size: 15px;
-  color: #2c3e50;
-  text-align: left;
-}
-
-/* 笔记条目 */
-.note-item {
-  background: #f9f9f9;
-  border: 1px solid #ddd;
+  padding: 10px 18px;
   border-radius: 8px;
-  padding: 10px 14px;
-  margin-bottom: 10px;
-  text-align: left;
-  box-sizing: border-box;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
 }
 
-/* 笔记预览：标题和操作按钮布局 */
-.note-preview {
+.button-group button:hover {
+  background: #1c4f8b;
+}
+
+.saved-notes-list {
+  max-height: 280px;
+  overflow-y: auto;
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+  font-size: 1rem;
+  color: #444;
+}
+
+.note-item {
+  background: #f0f4ff;
+  margin-bottom: 12px;
+  padding: 12px 15px;
+  border-radius: 10px;
+  box-shadow: inset 0 0 4px #bbd4ff;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* 笔记操作按钮 */
+.note-preview strong {
+  font-weight: 600;
+  color: #235d9a;
+  max-width: 60%;
+  word-break: break-word;
+}
+
 .note-actions button {
-  margin-left: 8px;
-  font-size: 14px;
-  padding: 4px 8px;
+  background: #5a9bd4;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #3498db;
   color: white;
-  transition: background-color 0.3s ease;
+  border-radius: 8px;
+  padding: 6px 14px;
+  cursor: pointer;
+  margin-left: 8px;
+  font-weight: 600;
+  transition: background 0.3s;
 }
 
 .note-actions button:hover {
-  background-color: #2980b9;
+  background: #2f78c8;
 }
 
-/* 删除按钮单独颜色 */
 .note-actions button:last-child {
-  background-color: #e74c3c;
+  background: #e55353;
 }
 
 .note-actions button:last-child:hover {
-  background-color: #c0392b;
+  background: #a93232;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .task-container {
+    flex-direction: column;
+  }
+  .task-column {
+    flex: 1 1 auto;
+  }
+  main {
+    margin: 15px 10px 30px;
+  }
 }
