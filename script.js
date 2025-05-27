@@ -1,230 +1,290 @@
-function setTheme(theme) {
-  if (theme === 'dark') {
-    document.body.classList.add('dark');
-    document.body.classList.remove('light');
-    document.getElementById('themeToggleBtn').textContent = '🌞 亮色模式';
-  } else {
-    document.body.classList.add('light');
-    document.body.classList.remove('dark');
-    document.getElementById('themeToggleBtn').textContent = '🌙 暗色模式';
-  }
-  localStorage.setItem('theme', theme);
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap');
+
+:root {
+  --blue-primary: #2196F3;
+  --blue-dark: #0b7dda;
+  --bg-light: #f9fbfc;
+  --fg-light: #222;
+  --bg-dark: #121212;
+  --fg-dark: #eee;
+  --sidebar-bg-light: rgba(255 255 255 / 0.85);
+  --sidebar-bg-dark: rgba(33 150 243 / 0.25);
+  --sidebar-hover-light: rgba(33 150 243 / 0.15);
+  --sidebar-hover-dark: rgba(33 150 243 / 0.35);
+  --border-color-light: #ddd;
+  --border-color-dark: #444;
+  --shadow-light: rgba(0 0 0 / 0.12);
+  --shadow-dark: rgba(0 0 0 / 0.7);
+  --btn-radius: 6px;
 }
 
-function toggleTheme() {
-  const isDark = document.body.classList.contains('dark');
-  setTheme(isDark ? 'light' : 'dark');
+/* 字体和基础重置 */
+body {
+  margin: 0;
+  font-family: 'Noto Sans SC', 'Microsoft Yahei', Arial, sans-serif;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-light);
+  color: var(--fg-light);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-function switchPage(page) {
-  const app = document.getElementById('app');
-  switch(page) {
-    case 'home':
-      app.innerHTML = '<h2>首页</h2><p>欢迎使用杂铺 MixUp！</p>';
-      break;
-    case 'tasks':
-      app.innerHTML = '<h2>每日事务</h2><p>这里是每日事务管理。</p>';
-      break;
-    case 'notes':
-      app.innerHTML = '<h2>笔记本</h2><p>这里是笔记本页面。</p>';
-      break;
-    case 'reminders':
-      app.innerHTML = '<h2>提醒</h2><p>这里是提醒管理。</p>';
-      break;
-    default:
-      app.textContent = '未知页面';
-  }
-
-  // 菜单高亮切换
-  document.querySelectorAll('#sidebar button').forEach(btn => btn.classList.remove('active'));
-  const currentBtn = document.getElementById(`menu-${page}`);
-  if (currentBtn) currentBtn.classList.add('active');
+body.dark {
+  background-color: var(--bg-dark);
+  color: var(--fg-dark);
 }
 
-window.onload = () => {
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  setTheme(savedTheme);
-  switchPage('home');
-};
-
-
-function checkRemindersNotification() {
-  const reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
-  const now = new Date();
-  reminders.forEach(rem => {
-    const [hour, minute] = rem.time.split(':').map(Number);
-    if (hour === now.getHours() && minute === now.getMinutes()) {
-      if (Notification.permission === 'granted') {
-        new Notification('杂铺 MixUp 提醒', { body: rem.text, icon: 'https://cdn-icons-png.flaticon.com/512/270/270798.png' });
-      }
-    }
-  });
+/* 容器布局 */
+#container {
+  display: flex;
+  flex: 1;
+  height: 100vh;
+  overflow: hidden;
 }
 
-// 主加载函数
-function loadPage(name) {
-  const pages = {
-    tasks: initTasks,
-    notes: initNotes,
-    reminders: initReminders,
-    home: initHome
-  };
-  if (pages[name]) pages[name]();
+/* 侧边栏 - 玻璃质感 */
+#sidebar {
+  width: 180px;
+  background-color: var(--sidebar-bg-light);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 0 10px var(--shadow-light);
+  color: var(--blue-dark);
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  overflow-y: auto;
+  border-right: 1px solid var(--border-color-light);
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-// 首页显示及功能按钮添加
-function initHome() {
-  document.getElementById('app').innerHTML = `
-    <h2 class="text-xl font-bold mb-4">欢迎使用「杂铺 MixUp」</h2>
-    <button id="themeToggleBtn" onclick="toggleTheme()" class="mr-2 mb-2 px-3 py-1 rounded border">切换主题</button>
-    <button onclick="exportData()" class="mr-2 mb-2 px-3 py-1 rounded border">导出数据</button>
-    <label class="mr-2 mb-2 px-3 py-1 rounded border cursor-pointer">
-      导入数据
-      <input type="file" accept="application/json" onchange="importData(event)" style="display:none" />
-    </label>
-    <button onclick="clearAllData()" class="mr-2 mb-2 px-3 py-1 rounded border text-red-600">清除所有数据</button>
-    <p>请选择左侧功能开始使用。</p>
-  `;
-  loadTheme();
-  requestNotificationPermission();
-  setInterval(checkRemindersNotification, 60 * 1000);
+body.dark #sidebar {
+  background-color: var(--sidebar-bg-dark);
+  color: #bbdefb;
+  box-shadow: 0 0 20px var(--shadow-dark);
+  border-right: 1px solid var(--border-color-dark);
 }
 
-// 任务功能（带搜索）
-function initTasks() {
-  document.getElementById('app').innerHTML = `
-    <h2 class="text-xl font-bold mb-4">📅 每日事务</h2>
-    <input id="taskInput" class="border p-2 mr-2" placeholder="输入新任务..." />
-    <button onclick="addTask()" class="bg-blue-500 text-white px-3 py-1 rounded">添加</button>
-    <input id="taskSearch" class="border p-2 ml-4" placeholder="搜索任务..." oninput="renderTasks(this.value)" />
-    <ul id="taskList" class="mt-4 space-y-2"></ul>
-  `;
-
-  const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-  const taskList = document.getElementById('taskList');
-
-  window.renderTasks = function (filter = '') {
-    taskList.innerHTML = '';
-    tasks
-      .filter(task => task.includes(filter))
-      .forEach((task, index) => {
-        const li = document.createElement('li');
-        li.className = 'flex justify-between items-center bg-white p-2 rounded shadow';
-        li.innerHTML = `
-          <span>${task}</span>
-          <button onclick="deleteTask(${index})" class="text-red-500">删除</button>
-        `;
-        taskList.appendChild(li);
-      });
-  };
-
-  window.addTask = function () {
-    const input = document.getElementById('taskInput');
-    const val = input.value.trim();
-    if (val) {
-      tasks.push(val);
-      input.value = '';
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-      renderTasks();
-    }
-  };
-
-  window.deleteTask = function (index) {
-    tasks.splice(index, 1);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    renderTasks();
-  };
-
-  renderTasks();
+/* 侧边栏按钮 */
+#sidebar button {
+  background: transparent;
+  border: none;
+  color: inherit;
+  padding: 16px 22px;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  outline: none;
+  border-left: 4px solid transparent;
+  position: relative;
+  transition: background-color 0.3s ease, border-left-color 0.3s ease;
+  overflow: hidden;
 }
 
-// 笔记功能（带搜索）
-function initNotes() {
-  document.getElementById('app').innerHTML = `
-    <h2 class="text-xl font-bold mb-4">📝 笔记本</h2>
-    <textarea id="noteArea" rows="10" class="w-full border p-3" placeholder="请输入笔记内容..."></textarea>
-    <button onclick="saveNote()" class="mt-2 bg-green-600 text-white px-3 py-1 rounded">保存笔记</button>
-    <input id="noteSearch" class="border p-2 mt-4 w-full" placeholder="搜索笔记内容..." oninput="searchNoteRender(this.value)" />
-    <div id="noteSearchResult" class="mt-2"></div>
-  `;
-
-  const noteArea = document.getElementById('noteArea');
-  noteArea.value = localStorage.getItem('note') || '';
-
-  window.saveNote = function () {
-    localStorage.setItem('note', noteArea.value);
-    alert('已保存！');
-  };
-
-  window.searchNoteRender = function (keyword) {
-    const note = localStorage.getItem('note') || '';
-    const resultDiv = document.getElementById('noteSearchResult');
-    if (keyword.trim() === '') {
-      resultDiv.textContent = '';
-      return;
-    }
-    if (note.includes(keyword)) {
-      // 简单高亮展示
-      const regex = new RegExp(`(${keyword})`, 'gi');
-      const highlighted = note.replace(regex, '<mark>$1</mark>');
-      resultDiv.innerHTML = `<p>搜索结果:</p><pre class="whitespace-pre-wrap bg-yellow-100 p-2 rounded">${highlighted}</pre>`;
-    } else {
-      resultDiv.textContent = '未找到匹配内容';
-    }
-  };
+/* 波纹点击效果 */
+#sidebar button::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background: var(--blue-primary);
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.5);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 0;
 }
 
-// 提醒功能（带推送和分类）
-function initReminders() {
-  document.getElementById('app').innerHTML = `
-    <h2 class="text-xl font-bold mb-4">⏰ 提醒</h2>
-    <input id="reminderInput" class="border p-2 mr-2" placeholder="输入提醒内容..." />
-    <input id="reminderTag" class="border p-2 mr-2" placeholder="标签（选填）" />
-    <input id="reminderTime" type="time" class="border p-2 mr-2" />
-    <button onclick="addReminder()" class="bg-purple-500 text-white px-3 py-1 rounded">添加</button>
-    <ul id="reminderList" class="mt-4 space-y-2"></ul>
-  `;
-
-  const reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
-  const reminderList = document.getElementById('reminderList');
-
-  window.renderReminders = function (filter = '') {
-    reminderList.innerHTML = '';
-    reminders
-      .filter(rem => rem.text.includes(filter) || (rem.tag && rem.tag.includes(filter)))
-      .forEach((item, index) => {
-        const li = document.createElement('li');
-        li.className = 'flex justify-between items-center bg-white p-2 rounded shadow';
-        li.innerHTML = `
-          <span>[${item.tag || '无标签'}] ${item.time} - ${item.text}</span>
-          <button onclick="deleteReminder(${index})" class="text-red-500">删除</button>
-        `;
-        reminderList.appendChild(li);
-      });
-  };
-
-  window.addReminder = function () {
-    const text = document.getElementById('reminderInput').value.trim();
-    const tag = document.getElementById('reminderTag').value.trim();
-    const time = document.getElementById('reminderTime').value;
-    if (text && time) {
-      reminders.push({ text, tag, time });
-      localStorage.setItem('reminders', JSON.stringify(reminders));
-      renderReminders();
-    }
-  };
-
-  window.deleteReminder = function (index) {
-    reminders.splice(index, 1);
-    localStorage.setItem('reminders', JSON.stringify(reminders));
-    renderReminders();
-  };
-
-  renderReminders();
+#sidebar button:active::after {
+  opacity: 0.2;
+  transform: translate(-50%, -50%) scale(1);
+  transition: 0s;
 }
 
-// 初始化默认首页
-loadPage('home');
-loadTheme();
-requestNotificationPermission();
-setInterval(checkRemindersNotification, 60 * 1000);
+#sidebar button:hover {
+  background-color: var(--sidebar-hover-light);
+}
+
+body.dark #sidebar button:hover {
+  background-color: var(--sidebar-hover-dark);
+}
+
+/* 激活按钮高亮 */
+#sidebar button.active {
+  border-left-color: var(--blue-primary);
+  font-weight: 700;
+  background-color: var(--sidebar-hover-light);
+}
+
+body.dark #sidebar button.active {
+  background-color: var(--sidebar-hover-dark);
+}
+
+/* 主内容区 */
+#main {
+  flex: 1;
+  padding: 24px 32px;
+  overflow-y: auto;
+  background-color: inherit;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* 顶部栏 */
+.topbar {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* 主题切换按钮 */
+#themeToggleBtn {
+  background-color: var(--blue-primary);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: var(--btn-radius);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(33, 150, 243, 0.4);
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+#themeToggleBtn:hover {
+  background-color: var(--blue-dark);
+}
+
+/* 页面内容切换动画 */
+#app {
+  flex: 1;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+/* 隐藏时淡出 */
+#app.fade-out {
+  opacity: 0;
+}
+
+/* 通用边框容器 */
+.border {
+  border: 1px solid var(--border-color-light);
+  border-radius: 8px;
+  padding: 20px;
+  background-color: rgba(255 255 255 / 0.6);
+  box-shadow: 0 2px 8px var(--shadow-light);
+  transition: background-color 0.5s ease, border-color 0.5s ease;
+}
+
+body.dark .border {
+  border-color: var(--border-color-dark);
+  background-color: rgba(33 33 33 / 0.6);
+  box-shadow: 0 2px 14px var(--shadow-dark);
+}
+
+/* 标题 */
+h2 {
+  margin-top: 0;
+  font-weight: 700;
+  font-size: 26px;
+  margin-bottom: 16px;
+  user-select: none;
+}
+
+/* 段落 */
+p {
+  line-height: 1.5;
+  font-size: 16px;
+  user-select: text;
+}
+
+/* 输入框和文本域 */
+input[type="text"], input[type="date"], input[type="time"], textarea {
+  width: 100%;
+  max-width: 100%;
+  font-size: 15px;
+  padding: 10px 14px;
+  border-radius: var(--btn-radius);
+  border: 1.5px solid var(--border-color-light);
+  background-color: rgba(255 255 255 / 0.8);
+  color: var(--fg-light);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  box-sizing: border-box;
+  user-select: text;
+}
+
+input[type="text"]:focus, input[type="date"]:focus, input[type="time"]:focus, textarea:focus {
+  border-color: var(--blue-primary);
+  outline: none;
+  background-color: #fff;
+}
+
+body.dark input[type="text"], body.dark input[type="date"], body.dark input[type="time"], body.dark textarea {
+  background-color: rgba(33 33 33 / 0.8);
+  color: var(--fg-dark);
+  border-color: var(--border-color-dark);
+}
+
+body.dark input[type="text"]:focus, body.dark input[type="date"]:focus, body.dark input[type="time"]:focus, body.dark textarea:focus {
+  background-color: #222;
+}
+
+/* 列表 */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-color-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  user-select: none;
+}
+
+body.dark li {
+  border-bottom: 1px solid var(--border-color-dark);
+}
+
+/* 小按钮 */
+.small-btn {
+  background-color: var(--blue-primary);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: background-color 0.3s ease;
+  user-select: none;
+  box-shadow: 0 3px 6px rgba(33,150,243,0.3);
+}
+
+.small-btn:hover {
+  background-color: var(--blue-dark);
+}
+
+/* 搜索高亮 */
+mark {
+  background-color: #fffb91;
+  color: black;
+  padding: 0 2px;
+  border-radius: 2px;
+  user-select: none;
+}
