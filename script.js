@@ -1,41 +1,5 @@
-// DOM Elements
+// 主题切换
 const toggle = document.getElementById('darkModeToggle');
-const navButtons = document.querySelectorAll('.nav-btn');
-const pages = document.querySelectorAll('.page');
-
-const dailyInput = document.getElementById('dailyInput');
-const addTaskBtn = document.getElementById('addTaskBtn');
-const dailyList = document.getElementById('dailyList');
-
-const reminderInput = document.getElementById('reminderInput');
-const reminderTime = document.getElementById('reminderTime');
-const addReminderBtn = document.getElementById('addReminderBtn');
-const reminderList = document.getElementById('reminderList');
-
-const noteInput = document.getElementById('noteInput');
-const saveNoteBtn = document.getElementById('saveNoteBtn');
-const notesContainer = document.getElementById('notesContainer');
-
-const exportBtn = document.getElementById('exportBtn');
-const importBtn = document.getElementById('importBtn');
-const importFile = document.getElementById('importFile');
-
-// 页面切换
-navButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    // 切换按钮激活状态
-    navButtons.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    // 显示对应页面，隐藏其它
-    const targetId = btn.getAttribute('data-target');
-    pages.forEach(page => {
-      page.classList.toggle('active', page.id === targetId);
-    });
-  });
-});
-
-// 深色模式切换
 toggle.addEventListener('change', () => {
   document.body.classList.toggle('dark', toggle.checked);
   localStorage.setItem('darkMode', toggle.checked);
@@ -45,146 +9,194 @@ if (localStorage.getItem('darkMode') === 'true') {
   toggle.checked = true;
 }
 
-// 添加每日事务
-addTaskBtn.addEventListener('click', addTask);
-dailyInput.addEventListener('keypress', e => {
-  if (e.key === 'Enter') addTask();
+// 标签页切换
+const tabs = document.querySelectorAll('.tab-btn');
+const contents = document.querySelectorAll('.tab-content');
+
+tabs.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    // 切换按钮样式
+    tabs.forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
+    // 切换内容显示
+    contents.forEach((c) => c.classList.remove('active'));
+    const tabName = btn.dataset.tab;
+    document.getElementById(tabName).classList.add('active');
+  });
 });
-function addTask() {
+
+// 添加每日事务
+const dailyInput = document.getElementById('dailyInput');
+const dailyList = document.getElementById('dailyList');
+const addTaskBtn = document.getElementById('addTaskBtn');
+
+addTaskBtn.addEventListener('click', () => {
   const val = dailyInput.value.trim();
   if (!val) return;
   const li = document.createElement('li');
   li.textContent = val;
-  li.title = '点击删除';
-  li.addEventListener('click', () => {
+  li.title = "点击删除";
+  li.onclick = () => {
     li.remove();
     saveAll();
-  });
+  };
   dailyList.appendChild(li);
   dailyInput.value = '';
   saveAll();
-}
+});
 
 // 添加提醒
-addReminderBtn.addEventListener('click', addReminder);
-reminderInput.addEventListener('keypress', e => {
-  if (e.key === 'Enter') addReminder();
-});
-function addReminder() {
+const reminderInput = document.getElementById('reminderInput');
+const reminderTime = document.getElementById('reminderTime');
+const reminderList = document.getElementById('reminderList');
+const addReminderBtn = document.getElementById('addReminderBtn');
+
+addReminderBtn.addEventListener('click', () => {
   const content = reminderInput.value.trim();
   const time = reminderTime.value;
   if (!content || !time) return;
   const li = document.createElement('li');
-  li.textContent = `${content} @ ${time.replace('T', ' ')}`;
-  li.title = '点击删除';
-  li.addEventListener('click', () => {
+  // 格式化时间显示
+  const timeText = new Date(time).toLocaleString('zh-CN', {
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit'
+  });
+  li.textContent = `${content} @ ${timeText}`;
+  li.title = "点击删除";
+  li.onclick = () => {
     li.remove();
     saveAll();
-  });
+  };
   reminderList.appendChild(li);
   reminderInput.value = '';
   reminderTime.value = '';
   saveAll();
-}
+});
 
 // 保存笔记
+const noteInput = document.getElementById('noteInput');
+const notesContainer = document.getElementById('notesContainer');
+const saveNoteBtn = document.getElementById('saveNoteBtn');
+
 saveNoteBtn.addEventListener('click', () => {
   const text = noteInput.value.trim();
   if (!text) return;
   const div = document.createElement('div');
   div.textContent = text;
-  div.title = '点击删除';
-  div.addEventListener('click', () => {
+  div.title = "点击删除";
+  div.onclick = () => {
     div.remove();
     saveAll();
-  });
+  };
   notesContainer.appendChild(div);
   noteInput.value = '';
   saveAll();
 });
 
 // 导出数据
-exportBtn.addEventListener('click', () => {
-  const data = getAllData();
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
+const exportDataBtn = document.getElementById('exportDataBtn');
+exportDataBtn.addEventListener('click', () => {
+  const data = {
+    tasks: Array.from(dailyList.children).map(li => li.textContent),
+    reminders: Array.from(reminderList.children).map(li => li.textContent),
+    notes: Array.from(notesContainer.children).map(div => div.textContent),
+    darkMode: document.body.classList.contains('dark')
+  };
+  const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
   const a = document.createElement('a');
-  a.href = url;
+  a.href = URL.createObjectURL(blob);
   a.download = 'mixup_data.json';
   a.click();
-  URL.revokeObjectURL(url);
 });
 
 // 导入数据
-importBtn.addEventListener('click', () => {
+const importFile = document.getElementById('importFile');
+const importDataBtn = document.getElementById('importDataBtn');
+
+importDataBtn.addEventListener('click', () => {
+  if (!importFile.files.length) return alert('请选择一个JSON文件');
   const file = importFile.files[0];
-  if (!file) return alert('请选择一个 JSON 文件');
   const reader = new FileReader();
   reader.onload = () => {
     try {
       const data = JSON.parse(reader.result);
       loadData(data);
-      alert('导入成功！');
     } catch {
-      alert('无效的 JSON 文件');
+      alert('文件格式错误');
     }
   };
   reader.readAsText(file);
 });
 
-// 获取当前数据
-function getAllData() {
-  return {
-    tasks: Array.from(dailyList.children).map(li => li.textContent),
-    reminders: Array.from(reminderList.children).map(li => li.textContent),
-    notes: Array.from(notesContainer.children).map(div => div.textContent),
-    darkMode: document.body.classList.contains('dark'),
-  };
-}
-
-// 加载数据到页面
 function loadData(data) {
+  // 清空现有
   dailyList.innerHTML = '';
-  (data.tasks || []).forEach(text => {
+  reminderList.innerHTML = '';
+  notesContainer.innerHTML = '';
+
+  data.tasks?.forEach(text => {
     const li = document.createElement('li');
     li.textContent = text;
-    li.title = '点击删除';
-    li.addEventListener('click', () => {
+    li.title = "点击删除";
+    li.onclick = () => {
       li.remove();
       saveAll();
-    });
+    };
     dailyList.appendChild(li);
   });
 
-  reminderList.innerHTML = '';
-  (data.reminders || []).forEach(text => {
+  data.reminders?.forEach(text => {
     const li = document.createElement('li');
     li.textContent = text;
-    li.title = '点击删除';
-    li.addEventListener('click', () => {
+    li.title = "点击删除";
+    li.onclick = () => {
       li.remove();
       saveAll();
-    });
+    };
     reminderList.appendChild(li);
   });
 
-  notesContainer.innerHTML = '';
-  (data.notes || []).forEach(text => {
+  data.notes?.forEach(text => {
     const div = document.createElement('div');
     div.textContent = text;
-    div.title = '点击删除';
-    div.addEventListener('click', () => {
+    div.title = "点击删除";
+    div.onclick = () => {
       div.remove();
       saveAll();
-    });
+    };
     notesContainer.appendChild(div);
   });
 
-  // 设置深色模式
-  document.body.classList.toggle('dark', data.darkMode);
-  toggle.checked = data.darkMode;
+  if (data.darkMode) {
+    document.body.classList.add('dark');
+    toggle.checked = true;
+  } else {
+    document.body.classList.remove('dark');
+    toggle.checked = false;
+  }
 
   saveAll();
 }
 
-// 保存
+// 保存到localStorage
+function saveAll() {
+  const data = {
+    tasks: Array.from(dailyList.children).map(li => li.textContent),
+    reminders: Array.from(reminderList.children).map(li => li.textContent),
+    notes: Array.from(notesContainer.children).map(div => div.textContent),
+    darkMode: document.body.classList.contains('dark')
+  };
+  localStorage.setItem('mixupData', JSON.stringify(data));
+}
+
+// 加载localStorage数据
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('mixupData');
+  if (!saved) return;
+  try {
+    const data = JSON.parse(saved);
+    loadData(data);
+  } catch {
+    console.warn('数据读取失败，可能是格式错误');
+  }
+});
