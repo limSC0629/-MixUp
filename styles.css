@@ -12,25 +12,34 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  font-size: 16px; /* 基准字体大小 */
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* 导航 */
 nav {
   background: #5a9bd4;
-  padding: 10px;
+  padding: 0.75rem 1rem;
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 1rem;
+  box-shadow: 0 3px 8px rgb(0 0 0 / 0.15);
 }
 
 nav button {
   background: #7bb0e8;
   border: none;
   color: white;
-  font-size: 16px;
-  padding: 10px 18px;
-  border-radius: 6px;
+  font-size: 1rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   transition: background 0.3s;
+  font-weight: 600;
+  min-width: 80px;
+  user-select: none;
 }
 
 nav button.active,
@@ -38,11 +47,12 @@ nav button:hover {
   background: #2f78c8;
 }
 
+/* 主体内容 */
 main {
   flex-grow: 1;
   max-width: 900px;
-  margin: 20px auto;
-  padding: 0 15px 40px;
+  margin: 1.5rem auto 3rem;
+  padding: 0 1.25rem;
   width: 100%;
 }
 
@@ -64,170 +74,196 @@ section.active {
 /* 任务容器 */
 .task-container {
   display: flex;
-  gap: 30px;
+  gap: 2rem;
   flex-wrap: wrap;
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 
 .task-column {
   flex: 1 1 400px;
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgb(0 0 0 / 0.1);
+  background: #fff;
+  padding: 1.5rem 1.75rem;
+  border-radius: 1rem;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.08);
   display: flex;
   flex-direction: column;
+  min-width: 280px;
+  max-height: 480px;
 }
 
 .task-column h2 {
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
   color: #2f78c8;
-  font-weight: 600;
-  font-size: 1.3rem;
+  font-weight: 700;
+  font-size: 1.375rem;
+  user-select: none;
 }
 
+/* 输入区域 */
 .task-input-group {
   display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
+  gap: 0.75rem;
+  margin-bottom: 1.2rem;
 }
 
 .task-input-group input[type="text"] {
   flex-grow: 1;
-  padding: 10px 15px;
-  border-radius: 6px;
+  padding: 0.55rem 1rem;
+  border-radius: 0.5rem;
   border: 1.5px solid #ccc;
   font-size: 1rem;
   transition: border-color 0.3s;
+  outline-offset: 2px;
+  outline-color: transparent;
+  font-weight: 500;
 }
 
 .task-input-group input[type="text"]:focus {
   border-color: #2f78c8;
-  outline: none;
+  outline-color: #a3c1ff;
 }
 
 .task-input-group button {
   background: #2f78c8;
   border: none;
   color: white;
-  padding: 10px 14px;
-  border-radius: 6px;
+  padding: 0.55rem 1.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1rem;
+  min-width: 80px;
   transition: background 0.3s;
+  user-select: none;
 }
 
 .task-input-group button:hover {
   background: #1c4f8b;
 }
 
+/* 列表容器 */
 .list-container {
   flex-grow: 1;
-  max-height: 320px;
   overflow-y: auto;
-  border-top: 1px solid #eee;
-  padding-top: 10px;
+  border-top: 1.5px solid #eee;
+  padding-top: 0.75rem;
 }
 
 /* 任务项 */
 .task {
   background: #f0f6ff;
-  margin-bottom: 10px;
-  padding: 10px 12px;
-  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 1rem;
-  box-shadow: inset 0 0 4px #c7d9ff;
+  box-shadow: inset 0 0 6px #c7d9ff;
   transition: background-color 0.3s;
+  user-select: none;
 }
 
 .task.completed span {
   text-decoration: line-through;
   color: #888;
+  font-style: italic;
 }
 
 .task label {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.75rem;
   cursor: pointer;
   flex-grow: 1;
+  user-select: none;
 }
 
 .task input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .task button {
   background: #e55353;
   border: none;
   color: white;
-  font-weight: 600;
-  border-radius: 6px;
+  font-weight: 700;
+  border-radius: 0.5rem;
   cursor: pointer;
-  padding: 6px 10px;
-  margin-left: 10px;
+  padding: 0.5rem 0.9rem;
+  margin-left: 1rem;
   transition: background 0.3s;
   flex-shrink: 0;
+  user-select: none;
 }
 
 .task button:hover {
   background: #a93232;
 }
 
-/* 笔记部分 */
+/* 笔记容器 */
 .notes-container {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 3px 12px rgb(0 0 0 / 0.1);
-  max-width: 700px;
-  margin: 20px auto 40px;
+  background: #fff;
+  padding: 2rem 2.25rem;
+  border-radius: 1rem;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.1);
+  max-width: 720px;
+  margin: 2rem auto 4rem;
   display: flex;
   flex-direction: column;
 }
 
 .notes-container h1 {
   color: #2f78c8;
-  margin-bottom: 15px;
+  margin-bottom: 1.25rem;
   font-weight: 700;
+  font-size: 1.5rem;
+  user-select: none;
 }
 
+/* 多行文本框 */
 #noteInput {
   resize: vertical;
-  min-height: 160px;
-  padding: 15px;
+  min-height: 180px;
+  padding: 1rem 1.25rem;
   font-size: 1rem;
-  border-radius: 8px;
+  border-radius: 0.75rem;
   border: 1.5px solid #ccc;
-  margin-bottom: 15px;
+  margin-bottom: 1.25rem;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 500;
+  outline-offset: 3px;
+  outline-color: transparent;
   transition: border-color 0.3s;
+  user-select: text;
 }
 
 #noteInput:focus {
   border-color: #2f78c8;
-  outline: none;
+  outline-color: #a3c1ff;
 }
 
+/* 按钮组 */
 .button-group {
   display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
 }
 
 .button-group button {
   background: #2f78c8;
   border: none;
   color: white;
-  padding: 10px 18px;
-  border-radius: 8px;
+  padding: 0.6rem 1.5rem;
+  border-radius: 0.75rem;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.1rem;
+  min-width: 100px;
+  user-select: none;
   transition: background 0.3s;
 }
 
@@ -235,43 +271,61 @@ section.active {
   background: #1c4f8b;
 }
 
+/* 保存的笔记列表 */
 .saved-notes-list {
-  max-height: 280px;
+  max-height: 300px;
   overflow-y: auto;
-  border-top: 1px solid #eee;
-  padding-top: 12px;
+  border-top: 1.5px solid #eee;
+  padding-top: 1rem;
   font-size: 1rem;
   color: #444;
+  user-select: none;
 }
 
+.saved-notes-list p {
+  color: #888;
+  font-style: italic;
+}
+
+/* 笔记条目 */
 .note-item {
   background: #f0f4ff;
-  margin-bottom: 12px;
-  padding: 12px 15px;
-  border-radius: 10px;
-  box-shadow: inset 0 0 4px #bbd4ff;
+  margin-bottom: 1rem;
+  padding: 1rem 1.2rem;
+  border-radius: 1rem;
+  box-shadow: inset 0 0 6px #bbd4ff;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  user-select: none;
 }
 
 .note-preview strong {
-  font-weight: 600;
+  font-weight: 700;
   color: #235d9a;
   max-width: 60%;
-  word-break: break-word;
+  overflow-wrap: break-word;
+  user-select: text;
+}
+
+.note-actions {
+  display: flex;
+  gap: 0.8rem;
+  user-select: none;
 }
 
 .note-actions button {
   background: #5a9bd4;
   border: none;
   color: white;
-  border-radius: 8px;
-  padding: 6px 14px;
+  border-radius: 0.75rem;
+  padding: 0.5rem 1.2rem;
   cursor: pointer;
-  margin-left: 8px;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1rem;
+  user-select: none;
   transition: background 0.3s;
+  white-space: nowrap;
 }
 
 .note-actions button:hover {
@@ -286,15 +340,7 @@ section.active {
   background: #a93232;
 }
 
-/* 响应式 */
+/* 响应式调整 */
 @media (max-width: 768px) {
   .task-container {
-    flex-direction: column;
-  }
-  .task-column {
-    flex: 1 1 auto;
-  }
-  main {
-    margin: 15px 10px 30px;
-  }
-}
+    flex
