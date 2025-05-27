@@ -2,52 +2,51 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>杂铺 MixUp</title>
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="assets/logo.png" />
 </head>
 <body>
   <header>
     <h1>🧃 杂铺 MixUp</h1>
-    <nav class="navbar">
-      <button class="nav-btn" data-page="home">首页</button>
-      <button class="nav-btn" data-page="plan">计划</button>
-      <button class="nav-btn" data-page="notes">笔记</button>
-      <label class="toggle">
-        🌙 <input type="checkbox" id="darkModeToggle" /> 夜间模式
-      </label>
-    </nav>
+    <label class="dark-toggle">
+      🌙 夜间模式
+      <input type="checkbox" id="darkModeToggle" />
+    </label>
   </header>
+
+  <nav class="navbar">
+    <button class="nav-btn" data-page="home">🏠 首页</button>
+    <button class="nav-btn" data-page="plan">🗓 计划</button>
+    <button class="nav-btn" data-page="notes">📝 笔记</button>
+  </nav>
 
   <main>
     <section id="home" class="page active">
-      <h2>📅 每日事务</h2>
-      <input type="text" id="taskInput" placeholder="添加事务..." />
-      <button onclick="addTask()">添加</button>
-      <ul id="taskList"></ul>
+      <h2>欢迎来到 MixUp</h2>
+      <p>一个多功能轻量笔记和日程工具。</p>
     </section>
 
     <section id="plan" class="page">
-      <h2>⏰ 计划与提醒</h2>
-      <input type="text" id="reminderInput" placeholder="提醒内容" />
-      <input type="datetime-local" id="reminderTime" />
-      <button onclick="addReminder()">添加</button>
-      <ul id="reminderList"></ul>
+      <h2>📅 添加计划</h2>
+      <input type="text" id="planInput" placeholder="输入今日任务..." />
+      <button onclick="addPlan()">添加</button>
+      <ul id="planList"></ul>
     </section>
 
     <section id="notes" class="page">
-      <h2>📝 笔记</h2>
-      <textarea id="noteInput" placeholder="写点什么..."></textarea>
+      <h2>📝 笔记区</h2>
+      <textarea id="noteInput" placeholder="写点什么吧..."></textarea>
       <button onclick="saveNote()">保存</button>
       <div id="notesContainer"></div>
     </section>
   </main>
 
   <footer>
-    <p>© 2025 杂铺 MixUp | Made with ❤️</p>
+    <p>© LSC - 杂铺 MixUp</p>
   </footer>
 
   <script src="script.js"></script>
 </body>
 </html>
+
