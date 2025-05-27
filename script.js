@@ -1,3 +1,16 @@
+function switchPage(name) {
+  document.querySelectorAll('#sidebar button').forEach(btn => btn.classList.remove('active'));
+  document.getElementById('menu-' + name).classList.add('active');
+  loadPage(name);
+}
+
+// 初始化
+loadPage('home');
+loadTheme();
+requestNotificationPermission();
+setInterval(checkRemindersNotification, 60 * 1000);
+
+
 // main function loader
 function loadPage(name) {
   const pages = {
