@@ -14,7 +14,7 @@
   </nav>
 
   <main>
-    <section id="intro" class="active">
+    <section id="intro" class="page active">
       <h1>欢迎使用杂铺 MixUp 🎉</h1>
       <p>这是一个集每日计划、提醒和笔记功能于一体的多功能学习助手，帮你更好管理学习和生活。</p>
       <ul>
@@ -25,7 +25,7 @@
       <p>导航栏点击即可切换页面，祝你使用愉快！</p>
     </section>
 
-    <section id="tasks">
+    <section id="tasks" class="page">
       <h1>🗓️ 每日事务中心</h1>
       <div class="task-container">
         <div class="task-column">
@@ -50,17 +50,15 @@
       </div>
     </section>
 
-    <section id="notes">
-      <div class="notes-container">
-        <h1>📝 我的笔记</h1>
-        <textarea id="noteInput" placeholder="写点内容吧..." spellcheck="false"></textarea>
-        <div class="button-group">
-          <button id="saveBtn">💾 保存笔记</button>
-          <button id="clearBtn">🗑️ 清空输入</button>
-        </div>
-        <h3>📚 已保存的笔记：</h3>
-        <div id="savedNotesList" class="saved-notes-list">(暂无保存的笔记)</div>
+    <section id="notes" class="page">
+      <h1>📝 我的笔记</h1>
+      <textarea id="noteInput" placeholder="写点内容吧..." spellcheck="false"></textarea>
+      <div class="button-group">
+        <button id="saveBtn">💾 保存笔记</button>
+        <button id="clearBtn">🗑️ 清空输入</button>
       </div>
+      <h3>📚 已保存的笔记：</h3>
+      <div id="savedNotesList" class="saved-notes-list">(暂无保存的笔记)</div>
     </section>
   </main>
 
