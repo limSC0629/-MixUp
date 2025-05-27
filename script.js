@@ -116,19 +116,21 @@ function initReminders() {
 }
 
 // 主题切换
-function loadTheme() {
-  const theme = localStorage.getItem('theme') || 'light';
-  setTheme(theme);
-}
-
 function setTheme(theme) {
   if (theme === 'dark') {
-    document.documentElement.classList.add('dark');
+    document.body.classList.add('dark');
+    document.body.classList.remove('light');
   } else {
-    document.documentElement.classList.remove('dark');
+    document.body.classList.add('light');
+    document.body.classList.remove('dark');
   }
   localStorage.setItem('theme', theme);
   document.getElementById('themeToggleBtn').textContent = theme === 'dark' ? '🌞 亮色模式' : '🌙 暗色模式';
+}
+
+function loadTheme() {
+  const theme = localStorage.getItem('theme') || 'light';
+  setTheme(theme);
 }
 
 // 主题按钮事件
