@@ -8,20 +8,32 @@
 </head>
 <body>
   <nav>
-    <button class="active" data-target="tasks">📋 每日事务</button>
-    <button data-target="notes">📝 笔记</button>
+    <button class="active" onclick="showPage('intro', this)">🏠 介绍</button>
+    <button onclick="showPage('tasks', this)">📋 每日事务</button>
+    <button onclick="showPage('notes', this)">📝 笔记</button>
   </nav>
 
   <main>
-    <section id="tasks" class="active">
+    <section id="intro" class="active">
+      <h1>欢迎使用杂铺 MixUp 🎉</h1>
+      <p>这是一个集每日计划、提醒和笔记功能于一体的多功能学习助手，帮你更好管理学习和生活。</p>
+      <ul>
+        <li>每日计划：轻松添加与管理你的日常任务</li>
+        <li>提醒事项：设定重要提醒，不再错过重要事情</li>
+        <li>笔记功能：快速记录灵感和学习内容，支持保存与管理</li>
+      </ul>
+      <p>导航栏点击即可切换页面，祝你使用愉快！</p>
+    </section>
+
+    <section id="tasks">
       <h1>🗓️ 每日事务中心</h1>
       <div class="task-container">
         <div class="task-column">
           <h2>📆 每日计划</h2>
           <div class="task-input-group">
             <input type="text" id="taskInput" placeholder="添加一个计划..." />
-            <button id="addTaskBtn">添加</button>
-            <button id="clearTasksBtn">清空</button>
+            <button onclick="addTask()">添加</button>
+            <button onclick="clearTasks()">清空</button>
           </div>
           <div id="taskList" class="list-container"></div>
         </div>
@@ -30,8 +42,8 @@
           <h2>⏰ 提醒事项</h2>
           <div class="task-input-group">
             <input type="text" id="reminderInput" placeholder="添加一个提醒..." />
-            <button id="addReminderBtn">添加</button>
-            <button id="clearRemindersBtn">清空</button>
+            <button onclick="addReminder()">添加</button>
+            <button onclick="clearReminders()">清空</button>
           </div>
           <div id="reminderList" class="list-container"></div>
         </div>
