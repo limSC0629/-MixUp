@@ -1,46 +1,46 @@
-// 主题切换相关
-const toggleBtn = document.getElementById('toggle-theme');
-const body = document.body;
+async function loadPage(name) {
+  const res = await fetch(`js/${name}.js`);
+  const jsCode = await res.text();
+  eval(jsCode);
+}
+document.getElementById("app").innerHTML = `
+  <h2 class="text-xl font-bold mb-4">📅 每日事务</h2>
+  <input id="taskInput" class="border p-2 mr-2" placeholder="输入新任务..." />
+  <button onclick="addTask()" class="bg-blue-500 text-white px-3 py-1 rounded">添加</button>
+  <ul id="taskList" class="mt-4 space-y-2"></ul>
+`;
 
-// 初始化主题状态
-if (localStorage.getItem('theme') === 'dark') {
-  body.classList.add('dark');
-  toggleBtn.textContent = '☀️';
+const tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+const taskList = document.getElementById("taskList");
+
+function renderTasks() {
+  taskList.innerHTML = "";
+  tasks.forEach((task, index) => {
+    const li = document.createElement("li");
+    li.className = "flex justify-between items-center bg-white p-2 rounded shadow";
+    li.innerHTML = `
+      <span>${task}</span>
+      <button onclick="deleteTask(${index})" class="text-red-500">删除</button>
+    `;
+    taskList.appendChild(li);
+  });
 }
 
-toggleBtn.addEventListener('click', () => {
-  if (body.classList.contains('dark')) {
-    body.classList.remove('dark');
-    toggleBtn.textContent = '🌙';
-    localStorage.setItem('theme', 'light');
-  } else {
-    body.classList.add('dark');
-    toggleBtn.textContent = '☀️';
-    localStorage.setItem('theme', 'dark');
-  }
-});
-
-// 导航按钮切换页面
-const navButtons = document.querySelectorAll('.nav-btn');
-const contentSections = document.querySelectorAll('.content-section');
-
-navButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    // 切换导航样式
-    navButtons.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    // 切换内容区显示
-    const target = btn.getAttribute('data-page');
-    contentSections.forEach(sec => {
-      sec.classList.toggle('active', sec.id === target);
-    });
-  });
-});
-
-// 首页功能 - 输入弹窗
-document.getElementById('showInputBtn').addEventListener('click', () => {
-  const val = document.getElementById('userInput').value.trim();
+function addTask() {
+  const input = document.getElementById("taskInput");
+  const val = input.value.trim();
   if (val) {
-    alert
+    tasks.push(val);
+    input.value = "";
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks();
+  }
+}
 
+function deleteTask(index) {
+  tasks.splice(index, 1);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  renderTasks();
+}
+
+renderTasks();
