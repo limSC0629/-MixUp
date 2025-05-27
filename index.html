@@ -38,19 +38,18 @@
   </section>
 
   <section id="notes">
-    <div class="container">
-      <h1>📝 我的笔记</h1>
-      <textarea id="note" placeholder="写点内容吧..."></textarea>
-      <div class="button-group">
-        <button id="saveBtn">💾 保存笔记</button>
-        <button id="loadBtn">📂 载入笔记</button>
-        <button id="clearBtn">🗑️ 清空笔记</button>
-      </div>
-      <p>📌 当前保存内容：</p>
-      <div id="output" class="output-box">(暂无内容)</div>
+  <div class="container">
+    <h1>📝 我的笔记</h1>
+    <textarea id="noteInput" placeholder="写点内容吧..."></textarea>
+    <div class="button-group">
+      <button onclick="saveNote()">💾 保存笔记</button>
+      <button onclick="clearEditor()">🗑️ 清空输入</button>
     </div>
-  </section>
-
+    <h3>📚 已保存的笔记：</h3>
+    <div id="savedNotesList"></div>
+  </div>
+</section>
+  
   <script src="script.js"></script>
 </body>
 </html>
