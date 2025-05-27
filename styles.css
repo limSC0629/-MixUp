@@ -1,32 +1,100 @@
-/* ==== 页面整体背景，带微妙渐变和纹理 ==== */
-body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-  color: #1e293b;
-  margin: 0;
-  padding: 0 20px 40px;
-  min-height: 100vh;
-  /* 叠加纹理点点背景，用SVG base64 */
-  background-image:
-    radial-gradient(circle at 20% 20%, rgba(255 255 255 / 0.15) 1px, transparent 2px),
-    radial-gradient(circle at 80% 80%, rgba(255 255 255 / 0.15) 1px, transparent 2px);
-  background-size: 40px 40px;
+:root {
+  --bg: #ffffff;
+  --text: #000000;
+  --card: #f0f0f0;
 }
 
-/* ==== 页头 ==== */
-header {
-  background: #0ea5e9;
-  color: white;
-  padding: 18px 24px;
-  border-radius: 0 0 12px 12px;
-  box-shadow: 0 4px 12px rgb(14 165 233 / 0.3);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  user-select: none;
+body.dark {
+  --bg: #121212;
+  --text: #ffffff;
+  --card: #1e1e1e;
 }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+header {
+  background: var(--card);
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+.mode-toggle {
+  margin-top: 0.5rem;
+}
+
+main {
+  padding: 1rem;
+}
+
+section {
+  background: var(--card);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+
+input, textarea, button {
+  margin: 0.25rem 0;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button {
+  background: #007bff;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background: #e0e0e0;
+  border-radius: 4px;
+}
+
+body.dark ul li {
+  background: #333;
+}
+
+#notesContainer div {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: #ddd;
+  border-radius: 4px;
+  white-space: pre-wrap;
+}
+
+body.dark #notesContainer div {
+  background: #2a2a2a;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.8rem;
+  color: #888;
+}
+
 header h1 {
   margin: 0;
   font-weight: 700;
