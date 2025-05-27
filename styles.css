@@ -135,3 +135,147 @@ form input[type="time"] {
   font-size: 15px;
   border: 1.5px solid #ddd;
   border-radius: 5
+/* 笔记页面样式优化 */
+
+.notes-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.notes-controls input[type="text"] {
+  flex: 1 1 200px;
+  padding: 8px 12px;
+  font-size: 15px;
+  border: 1.8px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s;
+}
+
+.notes-controls input[type="text"]:focus {
+  border-color: #4a90e2;
+  outline: none;
+}
+
+#noteInput {
+  width: 100%;
+  height: 160px;
+  padding: 12px 15px;
+  font-size: 16px;
+  border: 1.8px solid #ddd;
+  border-radius: 8px;
+  resize: vertical;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.07);
+  transition: border-color 0.3s;
+  margin-bottom: 15px;
+}
+
+#noteInput:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 8px #4a90e2aa;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.button-group button {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #4a90e2;
+  color: white;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.button-group button:hover {
+  background-color: #357ABD;
+}
+
+.saved-notes-list {
+  max-height: 280px;
+  overflow-y: auto;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 15px;
+  background-color: #fafafa;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.04);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.saved-notes-list .note-item {
+  border-bottom: 1px solid #eee;
+  padding: 10px 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.saved-notes-list .note-item:last-child {
+  border-bottom: none;
+}
+
+.saved-notes-list .note-item:hover {
+  background-color: #e6f0ff;
+}
+
+.note-title {
+  font-weight: 700;
+  color: #4a90e2;
+  margin-bottom: 4px;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.note-tags {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.note-content-preview {
+  font-size: 14px;
+  color: #444;
+  max-height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.import-export-group {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.import-export-group input[type="file"] {
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.small-btn {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.small-btn:hover {
+  background-color: #357ABD;
+}
