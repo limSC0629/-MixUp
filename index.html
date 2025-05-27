@@ -2,58 +2,51 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>杂铺 MixUp</title>
-  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header>
     <h1>杂铺 MixUp</h1>
-    <div class="dark-toggle">
-      <label>
-        🌙
-        <input type="checkbox" id="dark-mode-toggle" />
-      </label>
-    </div>
+    <label class="dark-toggle">
+      夜间模式 <input type="checkbox" id="dark-mode-toggle" />
+    </label>
   </header>
 
   <nav class="navbar">
-    <button class="nav-btn" onclick="showPage('home')">首页</button>
-    <button class="nav-btn" onclick="showPage('plan')">计划</button>
-    <button class="nav-btn" onclick="showPage('notes')">笔记</button>
+    <button class="nav-btn" data-page="home">首页</button>
+    <button class="nav-btn" data-page="plan">计划</button>
+    <button class="nav-btn" data-page="notes">笔记</button>
   </nav>
 
   <main>
     <section id="home-page" class="page active">
-      <h2>欢迎来到杂铺 MixUp</h2>
-      <p>这是一个简洁的日常事务管理工具。</p>
+      <h2>欢迎使用 MixUp！</h2>
+      <p>请选择上方的功能开始使用。</p>
     </section>
 
     <section id="plan-page" class="page">
-      <h2>添加你的计划</h2>
-      <input type="text" id="task-input" placeholder="输入新任务..." />
+      <h2>计划</h2>
+      <input type="text" id="task-input" placeholder="输入你的任务..." />
       <button onclick="addTask()">添加任务</button>
       <ul id="task-list"></ul>
     </section>
 
     <section id="notes-page" class="page">
-      <div class="note-input">
-        <h2>写下你的笔记</h2>
-        <textarea id="note-input" placeholder="输入笔记内容..."></textarea>
+      <h2>笔记</h2>
+      <div class="note-container">
+        <textarea id="note-input" placeholder="写下你的笔记..."></textarea>
         <button onclick="addNote()">保存笔记</button>
-      </div>
-      <div class="note-list">
-        <h2>已保存的笔记</h2>
-        <ul id="note-list"></ul>
+        <div id="note-list"></div>
       </div>
     </section>
   </main>
 
   <footer>
-    © LSC - 杂铺 MixUp - 所有权保留
+    <p>&copy; 2025 杂铺 MixUp</p>
   </footer>
 
   <script src="script.js"></script>
 </body>
 </html>
-
