@@ -1,6 +1,8 @@
+/* 全局重置和基础样式 */
 * {
   box-sizing: border-box;
 }
+
 body {
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
@@ -9,11 +11,15 @@ body {
   color: #333;
   text-align: center;
 }
+
+/* 标题 */
 h1 {
   margin-top: 30px;
   font-size: 28px;
   color: #2c3e50;
 }
+
+/* 导航栏 */
 nav {
   background-color: #3498db;
   padding: 12px;
@@ -21,6 +27,7 @@ nav {
   justify-content: center;
   gap: 20px;
 }
+
 nav button {
   background: none;
   border: none;
@@ -28,18 +35,25 @@ nav button {
   font-size: 16px;
   padding: 6px 12px;
   cursor: pointer;
+  transition: color 0.3s;
 }
+
 nav button.active {
   font-weight: bold;
   border-bottom: 2px solid white;
 }
+
+/* 内容区块 */
 section {
   display: none;
   padding: 20px;
 }
+
 section.active {
   display: block;
 }
+
+/* 任务容器 */
 .task-container {
   display: flex;
   flex-wrap: wrap;
@@ -47,6 +61,8 @@ section.active {
   gap: 40px;
   margin-top: 30px;
 }
+
+/* 任务列 */
 .task-column {
   width: 320px;
   background: white;
@@ -55,16 +71,20 @@ section.active {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: left;
 }
+
 .task-column h2 {
   text-align: center;
   margin-bottom: 15px;
   color: #2980b9;
 }
+
+/* 任务输入组 */
 .task-input-group {
   display: flex;
   gap: 8px;
   margin-bottom: 15px;
 }
+
 .task-input-group input {
   flex: 1;
   padding: 8px;
@@ -72,6 +92,7 @@ section.active {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
 .task-input-group button {
   padding: 8px 12px;
   background-color: #3498db;
@@ -80,10 +101,14 @@ section.active {
   font-size: 14px;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
 .task-input-group button:hover {
   background-color: #2980b9;
 }
+
+/* 任务项 */
 .task {
   display: flex;
   justify-content: space-between;
@@ -93,10 +118,13 @@ section.active {
   padding: 10px;
   border-radius: 6px;
 }
+
 .task.completed span {
   text-decoration: line-through;
   color: #888;
 }
+
+/* 任务删除按钮 */
 .task button {
   background: #e74c3c;
   border: none;
@@ -104,10 +132,19 @@ section.active {
   border-radius: 4px;
   padding: 4px 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
+.task button:hover {
+  background-color: #c0392b;
+}
+
+/* 任务复选框 */
 .task input[type="checkbox"] {
   margin-right: 8px;
 }
+
+/* 多行文本输入框 */
 textarea {
   width: 100%;
   height: 160px;
@@ -117,42 +154,64 @@ textarea {
   resize: vertical;
   font-size: 16px;
   margin-bottom: 15px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
 }
+
+textarea:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 6px #3498db;
+}
+
+/* 按钮组 */
 .button-group {
   display: flex;
   gap: 10px;
   justify-content: center;
   margin-bottom: 20px;
 }
+
 button {
   padding: 10px 16px;
   font-size: 15px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
+  font-family: 'Segoe UI', sans-serif;
 }
+
+/* 各按钮颜色 */
 #saveBtn {
   background-color: #3498db;
   color: white;
 }
+
 #saveBtn:hover {
   background-color: #2980b9;
 }
+
 #loadBtn {
   background-color: #2ecc71;
   color: white;
 }
+
 #loadBtn:hover {
   background-color: #27ae60;
 }
+
 #clearBtn {
   background-color: #e74c3c;
   color: white;
 }
+
 #clearBtn:hover {
   background-color: #c0392b;
 }
+
+/* 输出框 */
 .output-box {
   background-color: #ecf0f1;
   padding: 12px;
@@ -161,7 +220,10 @@ button {
   white-space: pre-wrap;
   font-size: 15px;
   color: #2c3e50;
+  text-align: left;
 }
+
+/* 笔记条目 */
 .note-item {
   background: #f9f9f9;
   border: 1px solid #ddd;
@@ -169,17 +231,38 @@ button {
   padding: 10px 14px;
   margin-bottom: 10px;
   text-align: left;
+  box-sizing: border-box;
 }
 
+/* 笔记预览：标题和操作按钮布局 */
 .note-preview {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+/* 笔记操作按钮 */
 .note-actions button {
   margin-left: 8px;
   font-size: 14px;
   padding: 4px 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #3498db;
+  color: white;
+  transition: background-color 0.3s ease;
 }
 
+.note-actions button:hover {
+  background-color: #2980b9;
+}
+
+/* 删除按钮单独颜色 */
+.note-actions button:last-child {
+  background-color: #e74c3c;
+}
+
+.note-actions button:last-child:hover {
+  background-color: #c0392b;
+}
