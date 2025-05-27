@@ -31,6 +31,7 @@ nav button {
   font-size: 16px;
   cursor: pointer;
   transition: background 0.3s;
+  user-select: none;
 }
 
 nav button:hover {
@@ -88,23 +89,27 @@ ul {
 }
 
 .search-group {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .search-group input {
   width: 100%;
-  padding: 7px 12px;
+  padding: 10px 15px;
   font-size: 15px;
   border: 1.5px solid #ddd;
-  border-radius: 5px;
-  transition: border-color 0.3s;
+  border-radius: 8px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  outline: none;
+  background: #fff;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .search-group input:focus {
   border-color: #4a90e2;
-  outline: none;
+  box-shadow: 0 0 8px #4a90e2aa;
 }
 
+/* 任务、提醒布局 */
 .task-container {
   display: flex;
   gap: 20px;
@@ -119,6 +124,7 @@ ul {
   box-shadow: inset 0 0 6px rgba(0,0,0,0.05);
 }
 
+/* 表单整体 */
 form {
   display: flex;
   flex-wrap: wrap;
@@ -127,56 +133,73 @@ form {
   align-items: center;
 }
 
+/* 表单输入框 */
 form input[type="text"],
 form select,
 form input[type="date"],
 form input[type="time"] {
-  padding: 7px 12px;
-  font-size: 15px;
-  border: 1.5px solid #ddd;
-  border-radius: 5
-/* 笔记页面样式优化 */
-
-.notes-controls {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-
-.notes-controls input[type="text"] {
-  flex: 1 1 200px;
   padding: 8px 12px;
   font-size: 15px;
-  border: 1.8px solid #ccc;
-  border-radius: 6px;
-  transition: border-color 0.3s;
-}
-
-.notes-controls input[type="text"]:focus {
-  border-color: #4a90e2;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  flex: 1;
+  min-width: 120px;
+  transition: border-color 0.3s, box-shadow 0.3s;
   outline: none;
+  background: #fff;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
 }
 
+form input[type="text"]:focus,
+form select:focus,
+form input[type="date"]:focus,
+form input[type="time"]:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 8px #4a90e2aa;
+}
+
+/* 表单按钮 */
+form button {
+  padding: 9px 18px;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #4a90e2;
+  color: white;
+  font-weight: 600;
+  flex-shrink: 0;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  user-select: none;
+}
+
+form button:hover {
+  background-color: #357abd;
+  box-shadow: 0 3px 8px rgba(53, 122, 189, 0.6);
+}
+
+/* 笔记输入 */
 #noteInput {
   width: 100%;
   height: 160px;
-  padding: 12px 15px;
+  padding: 15px 18px;
   font-size: 16px;
   border: 1.8px solid #ddd;
-  border-radius: 8px;
+  border-radius: 10px;
   resize: vertical;
   box-shadow: inset 0 2px 6px rgba(0,0,0,0.07);
-  transition: border-color 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s;
   margin-bottom: 15px;
+  font-family: "Microsoft YaHei", Tahoma, Arial, sans-serif;
 }
 
 #noteInput:focus {
   border-color: #4a90e2;
+  box-shadow: 0 0 10px #4a90e2bb;
   outline: none;
-  box-shadow: 0 0 8px #4a90e2aa;
 }
 
+/* 按钮组 */
 .button-group {
   display: flex;
   gap: 15px;
@@ -185,27 +208,50 @@ form input[type="time"] {
 
 .button-group button {
   flex: 1;
-  padding: 10px 0;
+  padding: 12px 0;
   font-size: 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   background-color: #4a90e2;
   color: white;
   font-weight: 600;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  user-select: none;
 }
 
 .button-group button:hover {
-  background-color: #357ABD;
+  background-color: #357abd;
+  box-shadow: 0 3px 8px rgba(53, 122, 189, 0.6);
 }
 
+/* 小按钮 */
+.small-btn {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  user-select: none;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.small-btn:hover {
+  background-color: #357abd;
+  box-shadow: 0 3px 8px rgba(53, 122, 189, 0.6);
+}
+
+/* 滚动列表样式 */
 .saved-notes-list {
   max-height: 280px;
   overflow-y: auto;
   border: 1.5px solid #ddd;
   border-radius: 8px;
-  padding: 10px 15px;
+  padding: 12px 16px;
   background-color: #fafafa;
   box-shadow: inset 0 0 6px rgba(0,0,0,0.04);
   font-size: 15px;
@@ -218,7 +264,8 @@ form input[type="time"] {
   cursor: pointer;
   transition: background-color 0.2s;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .saved-notes-list .note-item:last-child {
@@ -229,53 +276,36 @@ form input[type="time"] {
   background-color: #e6f0ff;
 }
 
-.note-title {
-  font-weight: 700;
+.note-preview strong {
   color: #4a90e2;
-  margin-bottom: 4px;
-  font-size: 16px;
+  font-weight: 700;
+  max-width: 70%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.note-tags {
-  font-size: 13px;
-  color: #666;
-  margin-bottom: 6px;
-}
-
-.note-content-preview {
-  font-size: 14px;
-  color: #444;
-  max-height: 50px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.import-export-group {
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.import-export-group input[type="file"] {
+/* 导入文件选择按钮 */
+input[type="file"] {
   cursor: pointer;
   font-size: 14px;
-}
-
-.small-btn {
-  background-color: #4a90e2;
-  color: white;
-  border: none;
+  margin-top: 10px;
   border-radius: 6px;
-  padding: 7px 14px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  background: white;
+  user-select: none;
+  transition: border-color 0.3s;
 }
 
-.small-btn:hover {
-  background-color: #357ABD;
+input[type="file"]:hover {
+  border-color: #4a90e2;
 }
+
+/* 任务列表样式 */
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border-bottom: 1px solid #eee;
