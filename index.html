@@ -1,35 +1,40 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN" class="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>杂铺 MixUp</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-<body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white transition-colors">
-  <div class="flex h-screen">
-    <!-- Sidebar -->
-    <aside class="w-60 bg-white dark:bg-gray-800 shadow-lg p-4">
-      <h1 class="text-2xl font-bold mb-6">杂铺 MixUp</h1>
-      <nav>
-        <ul class="space-y-3">
-          <li><button onclick="loadPage('tasks')" class="w-full text-left">📅 每日事务</button></li>
-          <li><button onclick="loadPage('notes')" class="w-full text-left">📝 笔记本</button></li>
-          <li><button onclick="loadPage('reminders')" class="w-full text-left">⏰ 提醒</button></li>
-        </ul>
-      </nav>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 p-6 overflow-y-auto">
-      <div id="app">
-        <p>欢迎使用「杂铺 MixUp」！请选择左侧功能开始使用。</p>
+<body>
+  <div id="container">
+    <div id="sidebar">
+      <button id="menu-home" class="active" onclick="switchPage('home')">首页</button>
+      <button id="menu-tasks" onclick="switchPage('tasks')">每日事务</button>
+      <button id="menu-notes" onclick="switchPage('notes')">笔记本</button>
+      <button id="menu-reminders" onclick="switchPage('reminders')">提醒</button>
+    </div>
+    <div id="main">
+      <div class="topbar">
+        <button id="themeToggleBtn" onclick="toggleTheme()">切换主题</button>
       </div>
-    </main>
+      <div id="app"></div>
+    </div>
   </div>
+  <script src="js/mixup.js"></script>
+  <script>
+    function switchPage(name) {
+      document.querySelectorAll('#sidebar button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('menu-' + name).classList.add('active');
+      loadPage(name);
+    }
 
-  <!-- Scripts -->
-  <script src="script.js"></script>
+    // 初始化
+    loadPage('home');
+    loadTheme();
+    requestNotificationPermission();
+    setInterval(checkRemindersNotification, 60 * 1000);
+  </script>
 </body>
 </html>
 
