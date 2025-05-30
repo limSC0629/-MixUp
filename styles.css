@@ -191,6 +191,41 @@ body.dark footer {
   color: #aaa;
 }
 
+.note-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.note-item {
+  padding: 0.8rem;
+  background: #e3f2fd;
+  border-radius: 6px;
+  margin-bottom: 0.8rem;
+  cursor: pointer;
+}
+
+.note-item h4 {
+  margin: 0 0 0.3rem 0;
+  font-size: 1.1rem;
+  color: #2c3e50;
+}
+
+.note-item p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+#note-search {
+  margin-bottom: 1rem;
+  padding: 0.6rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  width: 100%;
+  font-size: 1rem;
+}
 
 
 
