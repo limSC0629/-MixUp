@@ -34,16 +34,46 @@ function addTask() {
 
 // 添加笔记
 function addNote() {
-  const input = document.getElementById('note-input');
-  const note = input.value.trim();
-  if (note) {
-    const div = document.createElement('div');
-    div.textContent = note;
-    div.onclick = () => div.remove();
-    document.getElementById('note-list').appendChild(div);
-    input.value = '';
+  const titleInput = document.getElementById('note-title');
+  const contentInput = document.getElementById('note-input');
+  const title = titleInput.value.trim();
+  const content = contentInput.value.trim();
+
+  if (title && content) {
+    const noteDiv = document.createElement('div');
+    noteDiv.classList.add('note-item');
+
+    const titleElem = document.createElement('h4');
+    titleElem.textContent = title;
+
+    const contentElem = document.createElement('p');
+    contentElem.textContent = content;
+
+    noteDiv.appendChild(titleElem);
+    noteDiv.appendChild(contentElem);
+
+    noteDiv.onclick = () => {
+      if (confirm('确定要删除这条笔记吗？')) {
+        noteDiv.remove();
+      }
+    };
+
+    document.getElementById('note-list').appendChild(noteDiv);
+
+    titleInput.value = '';
+    contentInput.value = '';
   }
 }
 
+// 搜索功能
+document.getElementById('note-search').addEventListener('input', function () {
+  const keyword = this.value.toLowerCase();
+  const notes = document.querySelectorAll('#note-list .note-item');
+
+  notes.forEach(note => {
+    const title = note.querySelector('h4').textContent.toLowerCase();
+    note.style.display = title.includes(keyword) ? 'block' : 'none';
+  });
+});
 
 
