@@ -52,16 +52,28 @@ function renderNotes() {
     const noteDiv = document.createElement('div');
     noteDiv.classList.add('note-item');
 
-    const header = document.createElement('div');
-    header.classList.add('note-header');
+    const titleInput = document.createElement('input');
+    titleInput.type = 'text';
+    titleInput.value = note.title;
+    titleInput.classList.add('note-title');
 
-    const titleElem = document.createElement('h4');
-    titleElem.classList.add('note-title');
-    titleElem.textContent = note.title;
+    const contentInput = document.createElement('textarea');
+    contentInput.value = note.content;
+    contentInput.classList.add('note-content');
+
+    const saveBtn = document.createElement('button');
+    saveBtn.innerHTML = '✅';
+    saveBtn.className = 'save-note';
+    saveBtn.onclick = () => {
+      notes[index].title = titleInput.value.trim();
+      notes[index].content = contentInput.value.trim();
+      saveNotesToLocal();
+      renderNotes();
+    };
 
     const delBtn = document.createElement('button');
-    delBtn.className = 'delete-note';
     delBtn.innerHTML = '🗑️';
+    delBtn.className = 'delete-note';
     delBtn.onclick = () => {
       if (confirm('确定删除这条笔记吗？')) {
         notes.splice(index, 1);
@@ -70,15 +82,15 @@ function renderNotes() {
       }
     };
 
-    header.appendChild(titleElem);
-    header.appendChild(delBtn);
+    const btnBar = document.createElement('div');
+    btnBar.className = 'note-buttons';
+    btnBar.appendChild(saveBtn);
+    btnBar.appendChild(delBtn);
 
-    const contentElem = document.createElement('p');
-    contentElem.classList.add('note-content');
-    contentElem.textContent = note.content;
+    noteDiv.appendChild(titleInput);
+    noteDiv.appendChild(contentInput);
+    noteDiv.appendChild(btnBar);
 
-    noteDiv.appendChild(header);
-    noteDiv.appendChild(contentElem);
     noteList.appendChild(noteDiv);
   });
 }
