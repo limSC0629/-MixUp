@@ -33,6 +33,56 @@ function addTask() {
 }
 
 // 添加笔记
+let notes = JSON.parse(localStorage.getItem('notes')) || [];
+
+function saveNotesToLocal() {
+  localStorage.setItem('notes', JSON.stringify(notes));
+}
+
+function renderNotes() {
+  const noteList = document.getElementById('note-list');
+  noteList.innerHTML = '';
+
+  if (notes.length === 0) {
+    noteList.innerHTML = '<p class="note-empty">暂无笔记</p>';
+    return;
+  }
+
+  notes.forEach((note, index) => {
+    const noteDiv = document.createElement('div');
+    noteDiv.classList.add('note-item');
+
+    const header = document.createElement('div');
+    header.classList.add('note-header');
+
+    const titleElem = document.createElement('h4');
+    titleElem.classList.add('note-title');
+    titleElem.textContent = note.title;
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'delete-note';
+    delBtn.innerHTML = '🗑️';
+    delBtn.onclick = () => {
+      if (confirm('确定删除这条笔记吗？')) {
+        notes.splice(index, 1);
+        saveNotesToLocal();
+        renderNotes();
+      }
+    };
+
+    header.appendChild(titleElem);
+    header.appendChild(delBtn);
+
+    const contentElem = document.createElement('p');
+    contentElem.classList.add('note-content');
+    contentElem.textContent = note.content;
+
+    noteDiv.appendChild(header);
+    noteDiv.appendChild(contentElem);
+    noteList.appendChild(noteDiv);
+  });
+}
+
 function addNote() {
   const titleInput = document.getElementById('note-title');
   const contentInput = document.getElementById('note-input');
@@ -40,30 +90,14 @@ function addNote() {
   const content = contentInput.value.trim();
 
   if (title && content) {
-    const noteDiv = document.createElement('div');
-    noteDiv.classList.add('note-item');
-
-    const titleElem = document.createElement('h4');
-    titleElem.textContent = title;
-
-    const contentElem = document.createElement('p');
-    contentElem.textContent = content;
-
-    noteDiv.appendChild(titleElem);
-    noteDiv.appendChild(contentElem);
-
-    noteDiv.onclick = () => {
-      if (confirm('确定要删除这条笔记吗？')) {
-        noteDiv.remove();
-      }
-    };
-
-    document.getElementById('note-list').appendChild(noteDiv);
-
+    notes.push({ title, content });
+    saveNotesToLocal();
+    renderNotes();
     titleInput.value = '';
     contentInput.value = '';
   }
 }
+
 
 // 搜索功能
 document.getElementById('note-search').addEventListener('input', function () {
