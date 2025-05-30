@@ -35,12 +35,17 @@
 
     <section id="notes-page" class="page">
       <h2>笔记</h2>
+      <input type="text" id="note-search" placeholder="搜索标题..." />
       <div class="note-container">
-        <textarea id="note-input" placeholder="写下你的笔记..."></textarea>
-        <button onclick="addNote()">保存笔记</button>
+        <div class="note-form">
+          <input type="text" id="note-title" placeholder="笔记标题..." />
+          <textarea id="note-input" placeholder="写下你的笔记内容..."></textarea>
+          <button onclick="addNote()">保存笔记</button>
+        </div>
         <div id="note-list"></div>
       </div>
     </section>
+
   </main>
 
   <footer>
