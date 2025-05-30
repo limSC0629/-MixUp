@@ -19,7 +19,7 @@ if (localStorage.getItem('darkMode') === 'true') {
   darkToggle.checked = true;
 }
 
-// 添加计划
+// 计划功能
 function addTask() {
   const input = document.getElementById('task-input');
   const task = input.value.trim();
@@ -32,7 +32,7 @@ function addTask() {
   }
 }
 
-// 添加笔记
+// 笔记功能
 let notes = JSON.parse(localStorage.getItem('notes')) || [];
 
 function saveNotesToLocal() {
@@ -90,7 +90,6 @@ function renderNotes() {
     noteDiv.appendChild(titleInput);
     noteDiv.appendChild(contentInput);
     noteDiv.appendChild(btnBar);
-
     noteList.appendChild(noteDiv);
   });
 }
@@ -110,17 +109,4 @@ function addNote() {
   }
 }
 
-
-// 搜索功能
-document.getElementById('note-search').addEventListener('input', function () {
-  const keyword = this.value.toLowerCase();
-  const notes = document.querySelectorAll('#note-list .note-item');
-
-  notes.forEach(note => {
-    const title = note.querySelector('h4').textContent.toLowerCase();
-    note.style.display = title.includes(keyword) ? 'block' : 'none';
-  });
-});
-
 renderNotes();
-
