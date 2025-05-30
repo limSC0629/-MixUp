@@ -33,80 +33,61 @@ function addTask() {
 }
 
 // 笔记功能
-let notes = JSON.parse(localStorage.getItem('notes')) || [];
+let notes = JSON.parse(localStorage.getItem('notes') || '[]');
+const noteList = document.getElementById('note-list');
 
-function saveNotesToLocal() {
+function renderNotes(filter = '') {
+  noteList.innerHTML = '';
+  notes
+    .filter(n => n.content.includes(filter))
+    .forEach((note, index) => {
+      const div = document.createElement('div');
+      div.className = 'note-item';
+
+      const textarea = document.createElement('textarea');
+      textarea.value = note.content;
+      textarea.onchange = () => updateNote(index, textarea.value);
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = '删除';
+      deleteBtn.onclick = () => deleteNote(index);
+
+      div.appendChild(textarea);
+      div.appendChild(deleteBtn);
+      noteList.appendChild(div);
+    });
   localStorage.setItem('notes', JSON.stringify(notes));
 }
 
-function renderNotes() {
-  const noteList = document.getElementById('note-list');
-  noteList.innerHTML = '';
-
-  if (notes.length === 0) {
-    noteList.innerHTML = '<p class="note-empty">暂无笔记</p>';
-    return;
-  }
-
-  notes.forEach((note, index) => {
-    const noteDiv = document.createElement('div');
-    noteDiv.classList.add('note-item');
-
-    const titleInput = document.createElement('input');
-    titleInput.type = 'text';
-    titleInput.value = note.title;
-    titleInput.classList.add('note-title');
-
-    const contentInput = document.createElement('textarea');
-    contentInput.value = note.content;
-    contentInput.classList.add('note-content');
-
-    const saveBtn = document.createElement('button');
-    saveBtn.innerHTML = '✅';
-    saveBtn.className = 'save-note';
-    saveBtn.onclick = () => {
-      notes[index].title = titleInput.value.trim();
-      notes[index].content = contentInput.value.trim();
-      saveNotesToLocal();
-      renderNotes();
-    };
-
-    const delBtn = document.createElement('button');
-    delBtn.innerHTML = '🗑️';
-    delBtn.className = 'delete-note';
-    delBtn.onclick = () => {
-      if (confirm('确定删除这条笔记吗？')) {
-        notes.splice(index, 1);
-        saveNotesToLocal();
-        renderNotes();
-      }
-    };
-
-    const btnBar = document.createElement('div');
-    btnBar.className = 'note-buttons';
-    btnBar.appendChild(saveBtn);
-    btnBar.appendChild(delBtn);
-
-    noteDiv.appendChild(titleInput);
-    noteDiv.appendChild(contentInput);
-    noteDiv.appendChild(btnBar);
-    noteList.appendChild(noteDiv);
-  });
-}
-
 function addNote() {
-  const titleInput = document.getElementById('note-title');
-  const contentInput = document.getElementById('note-input');
-  const title = titleInput.value.trim();
-  const content = contentInput.value.trim();
-
-  if (title && content) {
-    notes.push({ title, content });
-    saveNotesToLocal();
+  const input = document.getElementById('note-input');
+  const content = input.value.trim();
+  if (content) {
+    notes.push({ content });
+    input.value = '';
     renderNotes();
-    titleInput.value = '';
-    contentInput.value = '';
   }
 }
+
+function updateNote(index, content) {
+  notes[index].content = content;
+  localStorage.setItem('notes', JSON.stringify(notes));
+}
+
+function deleteNote(index) {
+  notes.splice(index, 1);
+  renderNotes();
+}
+
+function clearAllNotes() {
+  if (confirm('确定清空所有笔记吗？')) {
+    notes = [];
+    renderNotes();
+  }
+}
+
+document.getElementById('note-search').addEventListener('input', e => {
+  renderNotes(e.target.value.trim());
+});
 
 renderNotes();
