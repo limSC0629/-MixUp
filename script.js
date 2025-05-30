@@ -110,4 +110,5 @@ document.getElementById('note-search').addEventListener('input', function () {
   });
 });
 
+renderNotes();
 
