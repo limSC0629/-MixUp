@@ -35,13 +35,17 @@
 
     <section id="notes-page" class="page">
       <h2>笔记</h2>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <input type="text" id="note-search" placeholder="搜索笔记..." style="flex: 1; max-width: 200px;" />
+        <button onclick="clearAllNotes()">清空全部</button>
+      </div>
       <div class="note-container">
-        <input type="text" id="note-title" placeholder="笔记标题..." />
         <textarea id="note-input" placeholder="写下你的笔记..."></textarea>
         <button onclick="addNote()">保存笔记</button>
         <div id="note-list"></div>
       </div>
     </section>
+
   </main>
 
   <footer>
