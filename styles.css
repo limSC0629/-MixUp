@@ -47,22 +47,3 @@ button {
   padding: 10px 20px;
   cursor: pointer;
 }
-
-body.dark .page {
-  background: var(--card-bg-dark);
-}
-
-body.dark input,
-body.dark textarea {
-  background-color: #444;
-  color: #fff;
-  border: 1px solid #666;
-}
-
-body.dark #note-list {
-  background: #2e2e2e;
-}
-
-body.dark .note-item {
-  background: #444;
-}
