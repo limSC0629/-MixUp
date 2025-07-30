@@ -1,197 +1,51 @@
-:root {
-  --primary-color: #3498db;
-  --bg-light: #f0f4f8;
-  --bg-dark: #1e1e1e;
-  --text-light: #ffffff;
-  --text-dark: #333333;
-  --card-bg-light: #ffffff;
-  --card-bg-dark: #2c2c2c;
-  --border-color: #ccc;
-}
-
 body {
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: var(--bg-light);
-  color: var(--text-dark);
-  transition: background 0.3s, color 0.3s;
-}
-
-header {
-  background: var(--primary-color);
-  color: #fff;
-  padding: 1rem;
-  text-align: center;
-  position: relative;
-}
-
-.dark-toggle {
-  position: absolute;
-  top: 1rem;
-  right: 1.5rem;
-}
-
-.navbar {
+  font-family: sans-serif;
+  background-color: #f0f8ff;
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  background-color: #dfe6ed;
-  padding: 0.5rem;
+  align-items: center;
+  height: 100vh;
 }
 
-.nav-btn {
-  padding: 0.5rem 1rem;
-  background: #fff;
-  color: var(--primary-color);
-  border: none;
-  border-radius: 6px;
+.quiz-container {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #aaa;
+  width: 300px;
+  text-align: center;
+}
+
+#options {
+  list-style: none;
+  padding: 0;
+}
+
+#options li {
+  background-color: #e6f7ff;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 5px;
   cursor: pointer;
-  font-weight: bold;
+  transition: background 0.3s;
 }
 
-.nav-btn:hover {
-  background: #cce3f7;
+#options li:hover {
+  background-color: #bae7ff;
 }
 
-main {
-  max-width: 960px;
-  margin: 2rem auto;
-  padding: 1rem;
+.correct {
+  background-color: #caffbf !important;
 }
 
-.page {
-  display: none;
-  background: var(--card-bg-light);
-  padding: 1.5rem;
-  border-radius: 8px;
-}
-
-.page.active {
-  display: block;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 0.6rem;
-  margin: 0.5rem 0;
-  border-radius: 4px;
-  border: 1px solid var(--border-color);
-  font-size: 1rem;
-}
-
-textarea {
-  height: 120px;
-  resize: vertical;
+.wrong {
+  background-color: #ffadad !important;
 }
 
 button {
-  padding: 0.5rem 1rem;
-  background-color: var(--primary-color);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-weight: bold;
+  margin-top: 10px;
+  padding: 10px 20px;
   cursor: pointer;
-}
-
-button:hover {
-  background-color: #2c80c3;
-}
-
-ul {
-  list-style: disc;
-  padding-left: 1.5rem;
-  margin-top: 1rem;
-}
-
-footer {
-  text-align: center;
-  padding: 1rem;
-  background-color: #eaeaea;
-  margin-top: 3rem;
-  font-size: 0.9rem;
-  color: #666;
-}
-
-/* 笔记列表增强 */
-.note-container {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  margin-top: 1rem;
-}
-
-.note-container textarea {
-  flex: 1;
-}
-
-#note-list {
-  flex: 1;
-  max-height: 300px;
-  overflow-y: auto;
-  padding: 1rem;
-  background: #f8f9fa;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.note-item {
-  background: #e3f2fd;
-  border-radius: 6px;
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.note-item textarea {
-  width: 100%;
-  height: 100px;
-  resize: vertical;
-  padding: 0.5rem;
-  font-size: 1rem;
-}
-
-.note-item button {
-  align-self: flex-end;
-  background-color: #e74c3c;
-  color: #fff;
-  border: none;
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.note-item button:hover {
-  background-color: #c0392b;
-}
-
-
-/* 夜间模式 */
-body.dark {
-  background-color: var(--bg-dark);
-  color: var(--text-light);
-}
-
-body.dark header {
-  background-color: #2c3e50;
-}
-
-body.dark .navbar {
-  background-color: #333;
-}
-
-body.dark .nav-btn {
-  background-color: #555;
-  color: #fff;
-}
-
-body.dark .nav-btn:hover {
-  background-color: #666;
 }
 
 body.dark .page {
