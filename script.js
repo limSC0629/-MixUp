@@ -1,4 +1,4 @@
-const questions = [
+const idioms = [
   {word: "否极泰来（pǐ jí tài lái）", explanation: "坏运到极点，好运就来了。", usage: "表示情况即将好转。", example: "只要坚持下去，否极泰来，终有一天会成功。", synonym: "苦尽甘来", antonym: "乐极生悲"},
   {word: "胼手胝足（pián shǒu zhī zú）", explanation: "形容劳动艰辛，手脚磨起茧子。", usage: "强调勤劳奋斗的辛苦。", example: "他靠着胼手胝足的努力，终于创业成功。", synonym: "呕心沥血、任劳任怨", antonym: "养尊处优"},
   {word: "平步青云（píng bù qīng yún）", explanation: "比喻人一下子升得很高，仕途顺利。", usage: "形容前途发展迅速。", example: "他工作没几年就升为总经理，真是平步青云。", synonym: "步步高升", antonym: "一落千丈"},
@@ -31,60 +31,74 @@ const questions = [
   {word: "前仆后继（qián pū hòu jì）", explanation: "前面的倒下，后面的继续冲上去，形容不怕牺牲、英勇奋斗。", usage: "多用于革命、抗争等场合。", example: "烈士们前仆后继，争取国家独立。", synonym: "奋勇当先", antonym: "畏缩不前"}
 ];
 
+
+
 let current = 0;
-let score = 0;
+const card = document.getElementById('idiom-card');
 
-const questionEl = document.getElementById("question");
-const optionsEl = document.getElementById("options");
-const scoreEl = document.getElementById("score");
-const nextBtn = document.getElementById("next-btn");
-
-function loadQuestion() {
-  const q = questions[current];
-  questionEl.textContent = `「${q.idiom}」是什么意思？`;
-  optionsEl.innerHTML = "";
-  q.options.forEach(option => {
-    const li = document.createElement("li");
-    li.textContent = option;
-    li.onclick = () => checkAnswer(li, q.answer);
-    optionsEl.appendChild(li);
-  });
-  scoreEl.textContent = "";
-  nextBtn.style.display = "none";
+function render() {
+  const i = idioms[current];
+  card.innerHTML = `
+    <h1>${i.word}</h1>
+    <p><strong>解释：</strong>${i.explanation}</p>
+    <p><strong>用途：</strong>${i.usage}</p>
+    <p><strong>例句：</strong>${i.example}</p>
+    <p><strong>近义词：</strong>${i.synonym}</p>
+    <p><strong>反义词：</strong>${i.antonym}</p>
+    <p style="text-align:right;">${current + 1} / ${idioms.length}</p>
+  `;
 }
+function next() {
+  if (current < idioms.length - 1) current++;
+  render();
+}
+function prev() {
+  if (current > 0) current--;
+  render();
+}
+render();
 
-function checkAnswer(li, correct) {
-  const lis = optionsEl.querySelectorAll("li");
-  lis.forEach(l => l.onclick = null); // 禁用其他选项点击
+// Quiz section
+let quizIndex = 0;
+let correctCount = 0;
 
-  if (li.textContent === correct) {
-    li.classList.add("correct");
-    score++;
-  } else {
-    li.classList.add("wrong");
-    lis.forEach(l => {
-      if (l.textContent === correct) {
-        l.classList.add("correct");
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+function generateQuiz() {
+  quizIndex++;
+  const correct = idioms[Math.floor(Math.random() * idioms.length)];
+  const wrong = shuffle(idioms.filter(i => i.word !== correct.word)).slice(0, 3);
+  const options = shuffle([correct, ...wrong]);
+
+  document.getElementById('quiz-question').innerHTML = `📘 解释：<strong>${correct.explanation}</strong><br>请选择正确的成语：`;
+  const quizOptions = document.getElementById('quiz-options');
+  quizOptions.innerHTML = '';
+
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.innerText = opt.word;
+    btn.style.display = 'block';
+    btn.style.margin = '6px 0';
+    btn.onclick = () => {
+      if (opt.word === correct.word) {
+        document.getElementById('quiz-result').innerHTML = "✅ 回答正确！";
+        correctCount++;
+      } else {
+        document.getElementById('quiz-result').innerHTML = `❌ 回答错误，正确答案是：<strong>${correct.word}</strong>`;
       }
-    });
-  }
-  nextBtn.style.display = "inline-block";
+      updateProgress();
+    };
+    quizOptions.appendChild(btn);
+  });
+
+  document.getElementById('quiz-result').innerText = "";
 }
-
-nextBtn.onclick = () => {
-  current++;
-  if (current < questions.length) {
-    loadQuestion();
-  } else {
-    showScore();
-  }
-};
-
-function showScore() {
-  questionEl.textContent = "测验结束！";
-  optionsEl.innerHTML = "";
-  scoreEl.textContent = `你的得分是 ${score} / ${questions.length}`;
-  nextBtn.style.display = "none";
+function nextQuiz() {
+  generateQuiz();
 }
+function updateProgress() {
+  document.getElementById('quiz-progress').innerText = `已答：${quizIndex}题，正确：${correctCount}题`;
+}
+generateQuiz();
 
-loadQuestion();
