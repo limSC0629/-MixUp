@@ -1,36 +1,30 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <title>成语学习与测验</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>成语学习页</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>📚 成语学习与测验</h1>
 
-  <div class="section">
-    <h2>学习卡片</h2>
-    <div id="idiomCard">
-      <h3 id="idiom"></h3>
-      <p id="pinyin"></p>
-      <p id="meaning"></p>
-      <p id="example"></p>
-      <p id="synonym"></p>
-      <p id="antonym"></p>
-    </div>
-    <button onclick="showNextIdiom()">下一条</button>
-  </div>
+<div class="card" id="idiom-card"></div>
 
-  <hr>
+<div class="nav">
+  <button onclick="prev()">上一条</button>
+  <button onclick="next()">下一条</button>
+</div>
 
-  <div class="section">
-    <h2>成语测验（解释 → 成语）</h2>
-    <p id="quizQuestion"></p>
-    <div id="quizOptions"></div>
-    <p id="quizResult"></p>
-    <button onclick="nextQuiz()">下一题</button>
-  </div>
+<div class="card" id="quiz-card" style="margin-top: 30px;">
+  <h1>🎯 成语测验小游戏</h1>
+  <p id="quiz-question"></p>
+  <div id="quiz-options"></div>
+  <p id="quiz-result" style="margin-top:10px;"></p>
+  <button onclick="nextQuiz()">下一题</button>
+  <p style="text-align:right;" id="quiz-progress"></p>
+</div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
+
