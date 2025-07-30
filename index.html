@@ -4,27 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>成语学习页</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<div class="card" id="idiom-card"></div>
+<div class="card" id="idiom-card">
+  <!-- 成语内容将通过 JS 填充 -->
+</div>
 
 <div class="nav">
   <button onclick="prev()">上一条</button>
   <button onclick="next()">下一条</button>
 </div>
 
-<div class="card" id="quiz-card" style="margin-top: 30px;">
-  <h1>🎯 成语测验小游戏</h1>
-  <p id="quiz-question"></p>
-  <div id="quiz-options"></div>
-  <p id="quiz-result" style="margin-top:10px;"></p>
-  <button onclick="nextQuiz()">下一题</button>
-  <p style="text-align:right;" id="quiz-progress"></p>
-</div>
-
 <script src="script.js"></script>
 </body>
 </html>
-
