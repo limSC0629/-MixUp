@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>成语学习页</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Study Hub 学习中心</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <div class="header">
+    <h1>Study Hub | 学习中心</h1>
+    <button id="lang-toggle">EN / 中文</button>
+  </div>
 
-<div class="card" id="idiom-card">
-  <!-- 成语内容将通过 JS 填充 -->
-</div>
+  <div class="subject-grid">
+    <a href="subjects/science.html" class="card">Science / 科学</a>
+    <a href="subjects/math.html" class="card">Mathematics / 数学</a>
+    <a href="subjects/geography.html" class="card">Geography / 地理</a>
+    <!-- 更多科目 -->
+  </div>
 
-<div class="nav">
-  <button onclick="prev()">上一条</button>
-  <button onclick="next()">下一条</button>
-</div>
-
-<script src="script.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
