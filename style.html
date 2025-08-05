@@ -1,0 +1,56 @@
+body {
+  font-family: sans-serif;
+  background-color: white;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark {
+  background-color: #121212;
+  color: white;
+}
+
+header {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #4caf50;
+  color: white;
+}
+
+#searchInput {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+#toggleTheme {
+  padding: 0.5rem 1rem;
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.card {
+  background: #f0f0f0;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 200px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+body.dark .card {
+  background: #1e1e1e;
+  color: #fff;
+}
