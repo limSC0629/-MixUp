@@ -1,35 +1,73 @@
-const cards = [
-  { title: "Flexbox", description: "CSS layout model for responsive design." },
-  { title: "Grid", description: "2D layout system for web components." },
-  { title: "DOM", description: "Document Object Model for JS to manipulate HTML." },
-  { title: "Events", description: "Mouse, keyboard, and other browser events." },
-  { title: "Selectors", description: "CSS and JS selectors for elements." }
+const challenges = [
+  {
+    level: 0,
+    instruction: "写出一个 h1 标签，文字内容为 Hello World。",
+    answer: "<h1>Hello World</h1>"
+  },
+  {
+    level: 1,
+    instruction: "写一个 p 标签，里面写你最喜欢的编程语言。",
+    answerCheck: (code) => code.includes("<p>") && code.includes("</p>")
+  },
+  {
+    level: 2,
+    instruction: "写出一个有 class 为 'box' 的 div 标签。",
+    answerCheck: (code) => /<div\s+class=["']box["']>.*<\/div>/.test(code)
+  },
+  {
+    level: 3,
+    instruction: "写一个带有链接（a 标签）的段落，指向 https://google.com",
+    answerCheck: (code) => /<a\s+href=["']https:\/\/google\.com["']>.*<\/a>/.test(code)
+  }
 ];
 
-const container = document.getElementById("cardContainer");
-const searchInput = document.getElementById("searchInput");
-const toggleThemeBtn = document.getElementById("toggleTheme");
+let currentLevel = 0;
 
-function renderCards(filter = "") {
-  container.innerHTML = "";
-  const filtered = cards.filter(card =>
-    card.title.toLowerCase().includes(filter.toLowerCase())
-  );
-
-  filtered.forEach(card => {
-    const div = document.createElement("div");
-    div.className = "card";
-    div.innerHTML = `<h3>${card.title}</h3><p>${card.description}</p>`;
-    container.appendChild(div);
-  });
+function loadChallenge() {
+  const c = challenges[currentLevel];
+  document.getElementById("challenge").innerText = `Level ${c.level}: ${c.instruction}`;
+  document.getElementById("code").value = "";
+  document.getElementById("result").innerText = "";
 }
 
-searchInput.addEventListener("input", (e) => {
-  renderCards(e.target.value);
-});
+function checkAnswer() {
+  const userCode = document.getElementById("code").value.trim();
+  const challenge = challenges[currentLevel];
 
-toggleThemeBtn.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-});
+  let correct = false;
+  if (challenge.answer) {
+    correct = userCode === challenge.answer;
+  } else if (typeof challenge.answerCheck === "function") {
+    correct = challenge.answerCheck(userCode);
+  }
 
-renderCards();
+  const result = document.getElementById("result");
+  if (correct) {
+    result.innerText = "✅ 正确！你可以进入下一关！";
+    document.getElementById("nextBtn").disabled = false;
+  } else {
+    result.innerText = "❌ 答案不正确，请再试试。";
+  }
+}
+
+function showAnswer() {
+  const challenge = challenges[currentLevel];
+  document.getElementById("code").value = challenge.answer || "（本题无标准答案）";
+}
+
+function nextLevel() {
+  currentLevel++;
+  if (currentLevel < challenges.length) {
+    loadChallenge();
+    document.getElementById("nextBtn").disabled = true;
+  } else {
+    document.getElementById("challenge").innerText = "🎉 你已经完成所有关卡了！";
+    document.getElementById("code").style.display = "none";
+    document.getElementById("checkBtn").style.display = "none";
+    document.getElementById("answerBtn").style.display = "none";
+    document.getElementById("nextBtn").style.display = "none";
+  }
+}
+
+window.onload = loadChallenge;
+
