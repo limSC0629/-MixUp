@@ -1,23 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Code Quest: HTML/CSS/JS Challenge</title>
-  <link rel="stylesheet" href="style.css" /
-  <script src="script.js"></script>
+  <meta charset="UTF-8">
+  <title>Web 编程闯关游戏</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>🧠 Code Quest</h1>
-    <p class="level-indicator">Level: <span id="level">0</span></p>
-    <div id="card" class="card">
-      <div class="question" id="question">Press Start to Begin</div>
-      <button id="show-answer" class="btn" style="display:none">Show Answer</button>
-      <div id="answer" class="answer"></div>
+    <h1>💻 Web 编程闯关游戏</h1>
+    <div id="level-selector">
+      <label for="level">选择关卡：</label>
+      <select id="level">
+        <option value="0">关卡 0：创建一个按钮</option>
+        <option value="1">关卡 1：按钮点击后变色</option>
+        <!-- 更多关卡待添加 -->
+      </select>
+      <button onclick="loadLevel()">加载关卡</button>
     </div>
-    <button id="next" class="btn">Start</button>
+
+    <div id="task-description"></div>
+
+    <textarea id="html-input" placeholder="写 HTML 代码..."></textarea>
+    <textarea id="css-input" placeholder="写 CSS 代码..."></textarea>
+    <textarea id="js-input" placeholder="写 JS 代码..."></textarea>
+
+    <button onclick="runCode()">▶️ 运行代码</button>
+    <iframe id="preview"></iframe>
+
+    <div id="result-message"></div>
   </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
-
