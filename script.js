@@ -1,56 +1,47 @@
-const challenges = [
+const tasks = [
   {
-    level: 0,
-    instruction: "写出一个 h1 标签，文字内容为 Hello World。",
-    answer: "<h1>Hello World</h1>"
+    description: "💡 关卡 0：请在 HTML 中创建一个按钮，文字是“点击我”。",
+    check: (html, css, js) => html.includes("<button>点击我</button>")
   },
   {
-    level: 1,
-    instruction: "写一个 p 标签，里面写你最喜欢的编程语言。",
-    answerCheck: (code) => code.includes("<p>") && code.includes("</p>")
-  },
-  {
-    level: 2,
-    instruction: "写出一个有 class 为 'box' 的 div 标签。",
-    answerCheck: (code) => /<div\s+class=["']box["']>.*<\/div>/.test(code)
-  },
-  {
-    level: 3,
-    instruction: "写一个带有链接（a 标签）的段落，指向 https://google.com",
-    answerCheck: (code) => /<a\s+href=["']https:\/\/google\.com["']>.*<\/a>/.test(code)
+    description: "💡 关卡 1：点击按钮后，按钮背景颜色要变成红色。",
+    check: (html, css, js) =>
+      html.includes("<button") &&
+      js.includes("addEventListener") &&
+      (js.includes("style.background") || js.includes("style.setProperty"))
   }
 ];
 
-let currentLevel = 0;
-
-function loadChallenge() {
-  const c = challenges[currentLevel];
-  document.getElementById("challenge").innerText = `Level ${c.level}: ${c.instruction}`;
-  document.getElementById("code").value = "";
-  document.getElementById("result").innerText = "";
+function loadLevel() {
+  const level = parseInt(document.getElementById("level").value);
+  document.getElementById("task-description").innerText = tasks[level].description;
+  document.getElementById("html-input").value = "";
+  document.getElementById("css-input").value = "";
+  document.getElementById("js-input").value = "";
+  document.getElementById("result-message").innerText = "";
+  document.getElementById("preview").srcdoc = "";
 }
 
-function checkAnswer() {
-  const userCode = document.getElementById("code").value.trim();
-  const challenge = challenges[currentLevel];
+function runCode() {
+  const html = document.getElementById("html-input").value;
+  const css = document.getElementById("css-input").value;
+  const js = document.getElementById("js-input").value;
+  const level = parseInt(document.getElementById("level").value);
 
-  let correct = false;
-  if (challenge.answer) {
-    correct = userCode === challenge.answer;
-  } else if (typeof challenge.answerCheck === "function") {
-    correct = challenge.answerCheck(userCode);
-  }
+  const fullCode = `
+    <style>${css}</style>
+    ${html}
+    <script>${js}<\/script>
+  `;
 
-  const result = document.getElementById("result");
-  if (correct) {
-    result.innerText = "✅ 正确！你可以进入下一关！";
-    document.getElementById("nextBtn").disabled = false;
-  } else {
-    result.innerText = "❌ 答案不正确，请再试试。";
-  }
+  document.getElementById("preview").srcdoc = fullCode;
+
+  const pass = tasks[level].check(html, css, js);
+  document.getElementById("result-message").innerText = pass
+    ? "✅ 恭喜你通过本关！"
+    : "❌ 未通过，再试试看~";
 }
 
-function showAnswer() {
   const challenge = challenges[currentLevel];
   document.getElementById("code").value = challenge.answer || "（本题无标准答案）";
 }
